@@ -8,7 +8,7 @@ import colorama
 import configparser
 from pyvoc.check_config import config_dir_path
 from pyvoc.dmanager import add_word_to_vocab, list_all_dumps
-from pyvoc.termoutput import revise_vocab
+from pyvoc.termoutput import revise_vocab, quiz
 
 # from pyvoc. [make different module for 2d structure]
 
@@ -82,9 +82,19 @@ def main():
     parser.add_argument(
         "-l", "--list", action="store_true", help="lists all vocabulary dumps"
     )
+    parser.add_argument(
+        "-q",
+        "--quiz",
+        type=int,
+        help="starts quiz. WORD is dump no. and QUIZ is no. of questions(default=5)",
+    )
     args = parser.parse_args()
     if args.r:
         revise_vocab(args.word)
+        exit()
+    if args.quiz:
+        quiz(int(args.word), args.quiz)
+        print("starting quiz")
         exit()
     parsed_response = dictionary(args.word)
     if args.add:
