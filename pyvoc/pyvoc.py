@@ -27,17 +27,35 @@ For now saving them in a json file.
 def parse_dictionary_response(response):
     lexicalEntries = response.json().get("results")[0]["lexicalEntries"]
     parsed_response = dict()
+    examples = dict()
     for i in lexicalEntries:
         lexicalCategory = i["lexicalCategory"]
         try:
             definition = i["entries"][0]["senses"][0]["short_definitions"][0]
+            example = i["entries"][0]["senses"][0]["examples"][0]["text"]
         except KeyError:
             definition = i["entries"][0]["senses"][0]["crossReferenceMarkers"][0]
+            example = i["entries"][0]["senses"][0]["examples"][0]["text"]
+        except Exception:
+            print("No definition found")
         parsed_response[lexicalCategory] = definition
-    return parsed_response
+        examples[lexicalCategory] = example
+    return parsed_response, examples
 
 
-# def pprint_definition(parsed_response):
+# red, green, yellow, blue, magenta, cyan, white
+# bold, dark, underlined, blink, reverse, concealed
+
+
+def pretty_print_definition(word, parsed_response, examples):
+    print("")
+    cprint(word + " ", color="magenta", attrs=["bold", "reverse"])
+    for key in parsed_response:
+        cprint(key + ":", color="green", end="")
+        cprint("\r\t\t" + parsed_response[key])  # ugly but works
+        cprint("example:", color="yellow", end="")
+        cprint("\r\t\t" + examples[key])
+        print("")
 
 
 def dictionary(word):
@@ -50,9 +68,9 @@ def dictionary(word):
     except ConnectionError:
         print("Unable to connect. Please check your internet connection.")
     if response.status_code == 200:
-        parsed_response = parse_dictionary_response(response)
-        # pprint_definition(parsed_response)
-        print(parsed_response)
+        parsed_response, examples = parse_dictionary_response(response)
+        pretty_print_definition(word, parsed_response, examples)
+        # print(parsed_response)
         return parsed_response
     elif response.status_code == 404:
         print("No definition found. Please check the spelling!!")
