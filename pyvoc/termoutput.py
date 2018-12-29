@@ -25,7 +25,8 @@ def revise_vocab(dump_number):
     random.shuffle(words)
     cprint("Press <enter> for next. q<enter> to exit", "yellow", attrs=["bold"])
     for word in words:
-        print(colored(word, color="red") + ": ", list(dump[word].values())[0])
+        cprint(word, color="red", end="\t")
+        cprint(": " + list(dump[word].values())[0], color="yellow")
         prompt = input("> ")
         if prompt.lower() == "q":
             break
