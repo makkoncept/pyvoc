@@ -33,15 +33,18 @@ def revise_vocab(dump_number):
     cprint("END", color="red", attrs=["bold"])
 
 
-# todo:add a default dump_number
-# todo:no. of words in definitions.json is hardcoded.later add it to config file
-def quiz(dump_number, no_of_questions=5):
-    print("")
-    dump_path = os.path.join(config_dir_path(), "dump" + str(dump_number) + ".json")
-    options_path = os.path.join(config_dir_path(), "definitions.json")
+def validate_dump_number(dump_number):
     if dump_number < 1 or dump_number > 100:
         cprint("Invalid dump number", color="red", attrs=["bold"])
         exit()
+    if dump_number < 51:
+        path = os.path.join(config_dir_path(), "userdumps.json")
+    else:
+        path = os.path.join(config_dir_path(), "defaultdumps.json")
+    return path
+
+
+def check_dump_path(dump_path):
     if not os.path.isfile(dump_path):
         cprint(
             "Dump number {} does not exist".format(dump_number),
@@ -49,15 +52,12 @@ def quiz(dump_number, no_of_questions=5):
             attrs=["bold"],
         )
         exit()
-    print("dump exits")
-    if dump_number < 51:
-        path = os.path.join(config_dir_path(), "userdumps.json")
-    else:
-        path = os.path.join(config_dir_path(), "defaultdumps.json")
 
+
+def count_words_in_dump(path, dump_number, no_of_questions):
     with open(path, "r") as f:
-        words_in_dump = json.load(f)[str(dump_number)]
-        if words_in_dump < no_of_questions:
+        num_of_words_in_dump = json.load(f)[str(dump_number)]
+        if num_of_words_in_dump < no_of_questions:
             cprint(
                 "dump number {} does not have enough words".format(dump_number),
                 color="red",
@@ -65,6 +65,16 @@ def quiz(dump_number, no_of_questions=5):
             )
             exit()
 
+
+# todo:add a default dump_number
+# todo:no. of words in definitions.json is hardcoded.later add it to config file
+def quiz(dump_number, no_of_questions=5):
+    print("")
+    path = validate_dump_number(dump_number)
+    dump_path = os.path.join(config_dir_path(), "dump" + str(dump_number) + ".json")
+    options_path = os.path.join(config_dir_path(), "definitions.json")
+    check_dump_path(dump_path)
+    count_words_in_dump(path, dump_number, no_of_questions)
     result = {}
     word_definition = {}
     with open(dump_path, "r") as f:
