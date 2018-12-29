@@ -58,7 +58,8 @@ def counter_increment(user_dump):
     else:
         path = os.path.join(config_dir_path(), "userdumps.json")
         with open(path, "r") as f:
-            content = json.load(f)        dump_number = user_dump
+            content = json.load(f)
+            dump_number = user_dump
         if not (dump_number > 0 and dump_number < 51):
             cprint("Not a valid dump number. Choose between 1 and 50", color="red")
             exit()
