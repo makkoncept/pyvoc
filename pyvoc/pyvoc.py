@@ -89,6 +89,9 @@ def main():
     )
     parser.add_argument("word", help="give meaning of WORD")
     parser.add_argument(
+        "-l", "--list", action="store_true", help="list all vocabulary dumps"
+    )
+    parser.add_argument(
         "-a", "--add", action="store_true", help="add WORD to vocabulary dump"
     )
     parser.add_argument(
@@ -98,9 +101,6 @@ def main():
         "-r",
         action="store_true",
         help="revise words in vocabulary dump.(WORD is dump number)",
-    )
-    parser.add_argument(
-        "-l", "--list", action="store_true", help="list all vocabulary dumps"
     )
     parser.add_argument(
         "-q",
