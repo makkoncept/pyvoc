@@ -87,18 +87,20 @@ def main():
     parser = argparse.ArgumentParser(
         description="vocabulary building tool (with dictionary api)"
     )
-    parser.add_argument("word", help="gives the meaning of the WORD")
+    parser.add_argument("word", help="give meaning of WORD")
     parser.add_argument(
-        "-a", "--add", action="store_true", help="add word to vocabulary dump"
+        "-a", "--add", action="store_true", help="add WORD to vocabulary dump"
     )
-    parser.add_argument("-d", help="dump number(1-50) to add the word too", type=int)
+    parser.add_argument(
+        "-d", help="{optional} dump no.(1-50) to add the word to", type=int
+    )
     parser.add_argument(
         "-r",
         action="store_true",
-        help="revise vocabulary. WORD is the dump number.(default=1)",
+        help="revise words in vocabulary dump.(WORD is dump number)",
     )
     parser.add_argument(
-        "-l", "--list", action="store_true", help="lists all vocabulary dumps"
+        "-l", "--list", action="store_true", help="list all vocabulary dumps"
     )
     parser.add_argument(
         "-q",
