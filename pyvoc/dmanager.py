@@ -149,15 +149,21 @@ def list_all_dumps():
     userdumps_path = os.path.join(config_dir_path(), "userdumps.json")
     defaultdumps_path = os.path.join(config_dir_path(), "defaultdumps.json")
     with open(userdumps_path, "r") as f:
-        dump_numbers = json.load(f)
+        user_dump_numbers = json.load(f)
     print("")
     cprint("USER DUMPS", color="cyan", on_color="on_grey")
-    for dump in dump_numbers:
-        cprint("dump{}: {} words".format(dump, dump_numbers[dump]), "green")
+    cprint("Dump no.", color="green", end="")
+    cprint("\r\t\tNo. of words")
+    for dump in user_dump_numbers:
+        cprint(dump, color="green", end="")
+        cprint("\r\t\t" + str(user_dump_numbers[dump]))
     with open(defaultdumps_path, "r") as f:
-        default_dumps = json.load(f)
+        default_dump_numbers = json.load(f)
     print("")
     cprint("DEFAULT DUMPS", color="cyan", on_color="on_grey")
-    for dump in default_dumps:
-        cprint("dump{}: {} words".format(dump, default_dumps[dump]), "green")
+    cprint("Dump no.", color="green", end="")
+    cprint("\r\t\tNo. of words")
+    for dump in default_dump_numbers:
+        cprint(dump, color="green", end="")
+        cprint("\r\t\t" + str(default_dump_numbers[dump]))
 
