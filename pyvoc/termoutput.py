@@ -23,14 +23,21 @@ def revise_vocab(dump_number):
         exit()
     words = list(dump)
     random.shuffle(words)
-    cprint("Press <enter> for next. q<enter> to exit", "yellow", attrs=["bold"])
-    for word in words:
-        cprint(word, color="red", end="\t")
-        cprint(": " + list(dump[word].values())[0], color="yellow")
+    cprint(
+        " Press <enter> for next. q<enter> to exit ",
+        "yellow",
+        attrs=["bold", "reverse"],
+    )
+    print("")
+    for i, word in enumerate(words, 1):
+        print("{}. ".format(i), end="")
+        cprint("{} ".format(word), color="cyan", attrs=["reverse"], end="\t")
+        cprint("\r\t\t: " + list(dump[word].values())[0])
         prompt = input("> ")
         if prompt.lower() == "q":
             break
-    cprint("END", color="red", attrs=["bold"])
+    print("")
+    cprint("END", color="yellow", attrs=["bold", "reverse"])
 
 
 def validate_dump_number(dump_number):
