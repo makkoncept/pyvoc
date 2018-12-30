@@ -118,7 +118,7 @@ def main():
         exit()
     parsed_response = dictionary(args.word)
     if args.add:
-        add_word_to_vocab(args.word, parsed_response, args.d)
+        add_word_to_vocab(args.word.lower(), parsed_response, args.d)
     if args.list:
         list_all_dumps()
 

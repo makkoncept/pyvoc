@@ -24,17 +24,20 @@ colorama.init()
 
 
 def add_new_vocab_dump(dump_number, user_dump=False):
-    if dump_number > 100 or dump_number < 0:
-        cprint("{} is not a valid dump number".format(dump_number), color="red")
+    if user_dump and (dump_number > 50 or dump_number < 1):
+        cprint(
+            "{} is not a valid dump number. Choose from 1-50".format(dump_number),
+            color="red",
+            attrs=["bold"],
+        )
         exit()
-    if user_dump and (dump_number > 50):
-        cprint("Not allowed. Choose from 1-50", color="red")
-        exit()
+    cprint("creating ", color="cyan", attrs=["reverse", "bold"], end="")
+    cprint("dump Number {}...".format(dump_number), color="green")
+
     with open(
         os.path.join(config_dir_path(), "dump" + str(dump_number) + ".json"), "w"
     ) as f:
         json.dump({}, f)
-    cprint("Creating dump Number {}...".format(dump_number), color="yellow")
 
 
 def counter_increment(user_dump):
@@ -44,7 +47,7 @@ def counter_increment(user_dump):
             content = json.load(f)
         latest_dump_number = 50 + len(content)
         if latest_dump_number > 100:
-            cprint("cannot add more")
+            cprint("Sorry! cannot add more words", color="red")
         if content[str(latest_dump_number)] > 10:
             add_new_vocab_dump(latest_dump_number + 1)
             content[str(latest_dump_number + 1)] = 1
@@ -59,9 +62,9 @@ def counter_increment(user_dump):
         path = os.path.join(config_dir_path(), "userdumps.json")
         with open(path, "r") as f:
             content = json.load(f)
-            dump_number = user_dump
+        dump_number = user_dump
         if not (dump_number > 0 and dump_number < 51):
-            cprint("Not a valid dump number. Choose between 1 and 50", color="red")
+            cprint("Not a valid dump number. Choose from 1-50", color="red")
             exit()
         if str(dump_number) not in content:
             content[str(dump_number)] = 1
@@ -78,8 +81,8 @@ def counter_increment(user_dump):
         return
 
 
-def check_duplicity(word, user_dump):
-    if not user_dump:
+def check_duplicity(word, dump_number):
+    if not dump_number:
         path = os.path.join(config_dir_path(), "defaultdumps.json")
         with open(path, "r") as f:
             dump_number = len(json.load(f)) + 50
@@ -95,8 +98,7 @@ def check_duplicity(word, user_dump):
             )
             exit()  # maybe add a prompt to accept dump number instead of exit
     else:
-        dump_number = user_dump
-        dump_path = os.path.join(config_dir_path(), "dump" + str(user_dump) + ".json")
+        dump_path = os.path.join(config_dir_path(), "dump" + str(dump_number) + ".json")
         with open(dump_path, "r") as f:
             content = json.load(f)
         if word in content:
@@ -115,11 +117,11 @@ def add_word_to_vocab(word, parsed_response, user_dump=None):
     check_config_files()
     config_path = config_dir_path()
     definition = {word: parsed_response}
-    word = word.lower()
     if not user_dump:
-        check_duplicity(word, user_dump=False)
+        check_duplicity(word, dump_number=False)
         dump_number = counter_increment(user_dump=False)
         dump_path = os.path.join(config_dir_path(), "dump" + str(dump_number) + ".json")
+        cprint("writing to vocabulary dump...", color="yellow")
         with open(dump_path, "r") as f:
             content = json.load(f)
         content.update(definition)
@@ -130,9 +132,10 @@ def add_word_to_vocab(word, parsed_response, user_dump=None):
         dump_path = os.path.join(config_dir_path(), "dump" + str(user_dump) + ".json")
         if not os.path.isfile(dump_path):
             add_new_vocab_dump(dump_number=user_dump, user_dump=True)
-        check_duplicity(word, user_dump=user_dump)
+        check_duplicity(word, dump_number=user_dump)
         counter_increment(user_dump=user_dump)
         dump_number = user_dump
+        cprint("writing to vocabulary dump...", color="yellow")
         with open(dump_path, "r") as f:
             content = json.load(f)
         content.update(definition)
@@ -160,7 +163,10 @@ def add_word_to_vocab(word, parsed_response, user_dump=None):
     with open(os.path.join(config_path, "all_words.json"), "w") as f:
         json.dump(all_words, f)
 
-    cprint("word added to dump number {}".format(dump_number), color="green")
+    cprint("word added to ", color="green", end="")
+    cprint(
+        "dump number {}".format(dump_number), color="cyan", attrs=["reverse", "bold"]
+    )
 
 
 def list_all_dumps():
