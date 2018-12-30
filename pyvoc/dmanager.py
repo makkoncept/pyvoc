@@ -26,7 +26,7 @@ def add_new_vocab_dump(dump_number):
 
 
 def validate_dump_number(dump_number):
-    if dump_number and (dump_number > 50 or dump_number < 1):
+    if dump_number > 50 or dump_number < 1:
         cprint(
             "dump number {} is not available. Choose from 1-50".format(dump_number),
             color="red",
@@ -124,10 +124,9 @@ def add_word_to_vocab(word, parsed_response, dump_number=None):
         validate_dump_number(dump_number)
         dump_path = os.path.join(config_dir_path(), "dump" + str(dump_number) + ".json")
         if not os.path.isfile(dump_path):
-            add_new_vocab_dump(dump_number=dump_number)
-        check_duplicity(word, dump_number=dump_number)
-        counter_increment(dump_number=dump_number)
-        dump_number = dump_number
+            add_new_vocab_dump(dump_number)
+        check_duplicity(word, dump_number)
+        counter_increment(dump_number)
         cprint("writing to vocabulary dump...", color="yellow")
         with open(dump_path, "r") as f:
             content = json.load(f)
