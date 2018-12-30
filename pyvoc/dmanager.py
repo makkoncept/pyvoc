@@ -35,8 +35,8 @@ def validate_dump_number(dump_number):
         exit()
 
 
-def counter_increment(user_dump):
-    if not user_dump:
+def counter_increment(dump_number):
+    if not dump_number:
         path = os.path.join(config_dir_path(), "defaultdumps.json")
         with open(path, "r") as f:
             content = json.load(f)
@@ -57,7 +57,7 @@ def counter_increment(user_dump):
         path = os.path.join(config_dir_path(), "userdumps.json")
         with open(path, "r") as f:
             content = json.load(f)
-        dump_number = user_dump
+        dump_number = dump_number
         if str(dump_number) not in content:
             content[str(dump_number)] = 1
         elif content[str(dump_number)] > 9:
@@ -103,15 +103,15 @@ def check_duplicity(word, dump_number):
             exit()  # maybe add a prompt to accept dump number instead of exit
 
 
-def add_word_to_vocab(word, parsed_response, user_dump=None):
+def add_word_to_vocab(word, parsed_response, dump_number=None):
     # maybe find a method to check only once. then change to create_config.py?
     print("")
     check_config_files()
     config_path = config_dir_path()
     definition = {word: parsed_response}
-    if not user_dump:
+    if not dump_number:
         check_duplicity(word, dump_number=False)
-        dump_number = counter_increment(user_dump=False)
+        dump_number = counter_increment(dump_number=False)
         dump_path = os.path.join(config_dir_path(), "dump" + str(dump_number) + ".json")
         cprint("writing to vocabulary dump...", color="yellow")
         with open(dump_path, "r") as f:
@@ -121,13 +121,13 @@ def add_word_to_vocab(word, parsed_response, user_dump=None):
             json.dump(content, f, ensure_ascii=False)
 
     else:
-        validate_dump_number(user_dump)
-        dump_path = os.path.join(config_dir_path(), "dump" + str(user_dump) + ".json")
+        validate_dump_number(dump_number)
+        dump_path = os.path.join(config_dir_path(), "dump" + str(dump_number) + ".json")
         if not os.path.isfile(dump_path):
-            add_new_vocab_dump(dump_number=user_dump, user_dump=True)
-        check_duplicity(word, dump_number=user_dump)
-        counter_increment(user_dump=user_dump)
-        dump_number = user_dump
+            add_new_vocab_dump(dump_number=dump_number)
+        check_duplicity(word, dump_number=dump_number)
+        counter_increment(dump_number=dump_number)
+        dump_number = dump_number
         cprint("writing to vocabulary dump...", color="yellow")
         with open(dump_path, "r") as f:
             content = json.load(f)
@@ -150,11 +150,11 @@ def list_all_dumps():
     userdumps_path = os.path.join(config_dir_path(), "userdumps.json")
     defaultdumps_path = os.path.join(config_dir_path(), "defaultdumps.json")
     with open(userdumps_path, "r") as f:
-        user_dumps = json.load(f)
+        dump_numbers = json.load(f)
     print("")
     cprint("USER DUMPS", color="cyan", on_color="on_grey")
-    for dump in user_dumps:
-        cprint("dump{}: {} words".format(dump, user_dumps[dump]), "green")
+    for dump in dump_numbers:
+        cprint("dump{}: {} words".format(dump, dump_numbers[dump]), "green")
     with open(defaultdumps_path, "r") as f:
         default_dumps = json.load(f)
     print("")
