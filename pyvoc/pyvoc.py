@@ -32,12 +32,19 @@ def parse_dictionary_response(response):
         lexicalCategory = i["lexicalCategory"]
         try:
             definition = i["entries"][0]["senses"][0]["short_definitions"][0]
-            example = i["entries"][0]["senses"][0]["examples"][0]["text"]
+            try:
+                example = i["entries"][0]["senses"][0]["examples"][0]["text"]
+            except KeyError:
+                example = "None"
         except KeyError:
-            definition = i["entries"][0]["senses"][0]["crossReferenceMarkers"][0]
-            example = i["entries"][0]["senses"][0]["examples"][0]["text"]
-        except Exception:
-            print("No definition found")
+            try:
+                definition = i["entries"][0]["senses"][0]["crossReferenceMarkers"][0]
+                try:
+                    example = i["entries"][0]["senses"][0]["examples"][0]["text"]
+                except KeyError:
+                    example = "None"
+            except Exception:
+                print("No definition found")
         parsed_response[lexicalCategory] = definition
         examples[lexicalCategory] = example
     return parsed_response, examples
