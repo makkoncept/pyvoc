@@ -7,7 +7,7 @@ from termcolor import colored, cprint
 import colorama
 import configparser
 from pyvoc.check_config import config_dir_path
-from pyvoc.dmanager import add_word_to_vocab, list_all_dumps
+from pyvoc.dmanager import add_word_to_vocab, list_all_groups
 from pyvoc.termoutput import revise_vocab, quiz
 
 # from pyvoc. [make different module for 2d structure]
@@ -96,24 +96,24 @@ def main():
     )
     parser.add_argument("word", help="give meaning of WORD")
     parser.add_argument(
-        "-l", "--list", action="store_true", help="list all vocabulary dumps"
+        "-l", "--list", action="store_true", help="list all vocabulary groups"
     )
     parser.add_argument(
-        "-a", "--add", action="store_true", help="add WORD to vocabulary dump"
+        "-a", "--add", action="store_true", help="add WORD to vocabulary group"
     )
     parser.add_argument(
-        "-d", help="{optional} dump no.(1-50) to add the word to", type=int
+        "-d", help="{optional} group no.(1-50) to add the word to", type=int
     )
     parser.add_argument(
         "-r",
         action="store_true",
-        help="revise words in vocabulary dump.(WORD is dump number)",
+        help="revise words in vocabulary group.(WORD is group number)",
     )
     parser.add_argument(
         "-q",
         "--quiz",
         type=int,
-        help="starts quiz. WORD is dump no. and QUIZ is no. of questions(default=5)",
+        help="starts quiz. WORD is group no. and QUIZ is no. of questions(default=5)",
     )
     args = parser.parse_args()
     if args.r:
@@ -127,7 +127,7 @@ def main():
     if args.add:
         add_word_to_vocab(args.word.lower(), parsed_response, args.d)
     if args.list:
-        list_all_dumps()
+        list_all_groups()
 
 
 if __name__ == "__main__":

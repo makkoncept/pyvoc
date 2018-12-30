@@ -18,15 +18,15 @@ def check_config_files():
         path = config_dir_path()
         # makes path recursively. returns None if already exist.
         os.makedirs(path, exist_ok=True)
-        if not os.path.isfile(os.path.join(path, "dump51.json")):
-            with open(os.path.join(path, "dump51.json"), "w") as f:
+        if not os.path.isfile(os.path.join(path, "group51.json")):
+            with open(os.path.join(path, "group51.json"), "w") as f:
                 json.dump({}, f)
-        if not os.path.isfile(os.path.join(path, "userdumps.json")):
+        if not os.path.isfile(os.path.join(path, "usergroups.json")):
             cprint("Creating necessary config files", color="yellow")
-            with open(os.path.join(path, "userdumps.json"), "w") as f:
+            with open(os.path.join(path, "usergroups.json"), "w") as f:
                 json.dump({}, f)
-        if not os.path.isfile(os.path.join(path, "defaultdumps.json")):
-            with open(os.path.join(path, "defaultdumps.json"), "w") as f:
+        if not os.path.isfile(os.path.join(path, "defaultgroups.json")):
+            with open(os.path.join(path, "defaultgroups.json"), "w") as f:
                 json.dump({51: 0}, f)
         if not os.path.isfile(os.path.join(path, "all_words.json")):
             with open(os.path.join(path, "all_words.json"), "w") as f:

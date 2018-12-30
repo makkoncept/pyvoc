@@ -8,20 +8,20 @@ from pyvoc.check_config import config_dir_path
 colorama.init()
 
 
-def revise_vocab(dump_number):
+def revise_vocab(group_number):
     print("")
-    dump_path = os.path.join(config_dir_path(), "dump" + str(dump_number) + ".json")
+    group_path = os.path.join(config_dir_path(), "group" + str(group_number) + ".json")
     try:
-        with open(os.path.join(dump_path), "r") as f:
-            dump = json.load(f)
+        with open(os.path.join(group_path), "r") as f:
+            group = json.load(f)
     except FileNotFoundError:
         cprint(
-            "dump number {} does not exists".format(dump_number),
+            "group number {} does not exists".format(group_number),
             color="red",
             attrs=["bold"],
         )
         exit()
-    words = list(dump)
+    words = list(group)
     random.shuffle(words)
     cprint(
         " Press <enter> for next. q<enter> to exit ",
@@ -32,7 +32,7 @@ def revise_vocab(dump_number):
     for i, word in enumerate(words, 1):
         print("{}. ".format(i), end="")
         cprint("{} ".format(word), color="cyan", attrs=["reverse"], end="\t")
-        cprint("\r\t\t: " + list(dump[word].values())[0])
+        cprint("\r\t\t: " + list(group[word].values())[0])
         prompt = input("> ")
         if prompt.lower() == "q":
             break
@@ -40,56 +40,56 @@ def revise_vocab(dump_number):
     cprint("END", color="yellow", attrs=["bold", "reverse"])
 
 
-def validate_dump_number(dump_number):
-    if dump_number < 1 or dump_number > 100:
-        cprint("Invalid dump number", color="red", attrs=["bold"])
+def validate_group_number(group_number):
+    if group_number < 1 or group_number > 100:
+        cprint("Invalid group number", color="red", attrs=["bold"])
         exit()
-    if dump_number < 51:
-        path = os.path.join(config_dir_path(), "userdumps.json")
+    if group_number < 51:
+        path = os.path.join(config_dir_path(), "usergroups.json")
     else:
-        path = os.path.join(config_dir_path(), "defaultdumps.json")
+        path = os.path.join(config_dir_path(), "defaultgroups.json")
     return path
 
 
-def check_dump_path(dump_path):
-    if not os.path.isfile(dump_path):
+def check_group_path(group_path):
+    if not os.path.isfile(group_path):
         cprint(
-            "Dump number {} does not exist".format(dump_number),
+            "Dump number {} does not exist".format(group_number),
             color="red",
             attrs=["bold"],
         )
         exit()
 
 
-def count_words_in_dump(path, dump_number, no_of_questions):
+def count_words_in_group(path, group_number, no_of_questions):
     with open(path, "r") as f:
-        num_of_words_in_dump = json.load(f)[str(dump_number)]
-        if num_of_words_in_dump < no_of_questions:
+        num_of_words_in_group = json.load(f)[str(group_number)]
+        if num_of_words_in_group < no_of_questions:
             cprint(
-                "dump number {} does not have enough words".format(dump_number),
+                "group number {} does not have enough words".format(group_number),
                 color="red",
                 attrs=["bold"],
             )
             exit()
 
 
-# todo:add a default dump_number
+# todo:add a default group_number
 # todo:no. of words in definitions.json is hardcoded.later add it to config file
-def quiz(dump_number, no_of_questions=5):
+def quiz(group_number, no_of_questions=5):
     print("")
-    path = validate_dump_number(dump_number)
-    dump_path = os.path.join(config_dir_path(), "dump" + str(dump_number) + ".json")
+    path = validate_group_number(group_number)
+    group_path = os.path.join(config_dir_path(), "group" + str(group_number) + ".json")
     options_path = os.path.join(config_dir_path(), "definitions.json")
-    check_dump_path(dump_path)
-    count_words_in_dump(path, dump_number, no_of_questions)
+    check_group_path(group_path)
+    count_words_in_group(path, group_number, no_of_questions)
     result = {}
     word_definition = {}
-    with open(dump_path, "r") as f:
-        dump_content = json.load(f)
-    word_list = random.sample(list(dump_content), no_of_questions)
+    with open(group_path, "r") as f:
+        group_content = json.load(f)
+    word_list = random.sample(list(group_content), no_of_questions)
     print(word_list)
     for word in word_list:
-        _ = dump_content[word]
+        _ = group_content[word]
         refined_def = _[random.sample(list(_), 1)[0]]
         print(_)
         print(refined_def)
