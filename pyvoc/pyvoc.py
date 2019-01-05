@@ -102,7 +102,7 @@ def main():
         "-a", "--add", action="store_true", help="add WORD to vocabulary group"
     )
     parser.add_argument(
-        "-d", help="{optional} group no.(1-50) to add the word to", type=int
+        "-g", help="{optional} group no.(1-50) to add the word to", type=int
     )
     parser.add_argument(
         "-r",

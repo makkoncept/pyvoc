@@ -159,8 +159,8 @@ def list_all_groups():
     with open(usergroups_path, "r") as f:
         user_group_numbers = json.load(f)
     print("")
-    cprint("USER DUMPS", color="cyan", on_color="on_grey")
-    cprint("Dump no.", color="green", end="")
+    cprint("USER GROUPS", color="cyan", on_color="on_grey")
+    cprint("Group no.", color="green", end="")
     cprint("\r\t\tNo. of words")
     for group in user_group_numbers:
         cprint(group, color="green", end="")
@@ -168,8 +168,8 @@ def list_all_groups():
     with open(defaultgroups_path, "r") as f:
         default_group_numbers = json.load(f)
     print("")
-    cprint("DEFAULT DUMPS", color="cyan", on_color="on_grey")
-    cprint("Dump no.", color="green", end="")
+    cprint("DEFAULT GROUP", color="cyan", on_color="on_grey")
+    cprint("Group no.", color="green", end="")
     cprint("\r\t\tNo. of words")
     for group in default_group_numbers:
         cprint(group, color="green", end="")
