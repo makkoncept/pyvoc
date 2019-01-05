@@ -2,6 +2,7 @@ import os
 import json
 from termcolor import cprint
 import colorama
+import requests
 
 colorama.init()
 
@@ -21,6 +22,19 @@ def check_config_files():
         if not os.path.isfile(os.path.join(path, "group51.json")):
             with open(os.path.join(path, "group51.json"), "w") as f:
                 json.dump({}, f)
+        if not os.path.isfile(os.path.join(path, "group101.json")):
+            response = requests.get(
+                "https://raw.githubusercontent.com/makkoncept/definitions/master/group101.json"
+            )
+            with open(os.path.join(path, "group101.json"), "w") as f:
+                json.dump(response.json(), f)
+        if not os.path.isfile(os.path.join(path, "options.json")):
+            response = requests.get(
+                "https://raw.githubusercontent.com/makkoncept/doptions/master/options.json"
+            )
+            with open(os.path.join(path, "options.json"), "w") as f:
+                json.dump(response.json(), f)
+
         if not os.path.isfile(os.path.join(path, "usergroups.json")):
             cprint("Creating necessary config files", color="yellow")
             with open(os.path.join(path, "usergroups.json"), "w") as f:

@@ -120,8 +120,8 @@ def main():
         revise_vocab(args.word)
         exit()
     if args.quiz:
+        cprint("\n\t\tStarting Quiz", color="red", attrs=["bold", "reverse"])
         quiz(int(args.word), args.quiz)
-        print("starting quiz")
         exit()
     parsed_response = dictionary(args.word)
     if args.add:

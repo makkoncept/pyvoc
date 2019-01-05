@@ -42,7 +42,12 @@ def revise_vocab(group_number):
 
 def validate_group_number(group_number):
     if group_number == 101:
+        path = os.path.join(config_dir_path(), "group101.json")
+        if not os.path.isfile(path):
+            cprint("group{} does not exist".format(101), color="red", attrs=["bold"])
+            exit()
         return
+
     if group_number < 1 or group_number > 100:
         cprint("Invalid group number. choose from 1-100", color="red", attrs=["bold"])
         exit()
@@ -81,7 +86,7 @@ def quiz(group_number, no_of_questions=5):
     print("")
     path = validate_group_number(group_number)
     group_path = os.path.join(config_dir_path(), "group" + str(group_number) + ".json")
-    options_path = os.path.join(config_dir_path(), "definitions.json")
+    options_path = os.path.join(config_dir_path(), "options.json")
     check_group_path(group_path)
     if path:
         count_words_in_group(path, group_number, no_of_questions)
@@ -97,7 +102,7 @@ def quiz(group_number, no_of_questions=5):
         word_definition[word] = refined_def
     with open(options_path, "r") as f:
         options = json.load(f)
-    cprint("\t\tStarting Quiz", color="red", attrs=["bold", "reverse"])
+    # cprint("\t\tStarting Quiz", color="red", attrs=["bold", "reverse"])
     cprint(
         "1 point for every correct answer. q<enter> to exit",
         color="yellow",
@@ -145,8 +150,8 @@ def prompt_input(correct_option_number, word, score, result):
     while 1:
         prompt = input("> ")
         if prompt.lower() == "q":
-            return
-            # exit()
+            # return
+            exit()
         try:
             if not int(prompt) in [1, 2, 3, 4]:
                 cprint(
