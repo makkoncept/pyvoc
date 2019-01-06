@@ -31,8 +31,13 @@ def revise_vocab(group_number):
     print("")
     for i, word in enumerate(words, 1):
         print("{}. ".format(i), end="")
-        cprint("{} ".format(word), color="cyan", attrs=["reverse"], end="\t")
-        cprint("\r\t\t: " + list(group[word].values())[0])
+        cprint(
+            "{} ".format(word),
+            color="green",
+            attrs=["reverse", "bold"],
+            end=" " * (18 - len(word)),
+        )
+        cprint(list(group[word].values())[0])
         prompt = input("> ")
         if prompt.lower() == "q":
             break

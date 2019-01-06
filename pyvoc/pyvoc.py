@@ -58,10 +58,10 @@ def pretty_print_definition(word, parsed_response, examples):
     print("")
     cprint(word + " ", color="magenta", attrs=["bold", "reverse"])
     for key in parsed_response:
-        cprint(key + ":", color="green", end="")
-        cprint("\r\t\t" + parsed_response[key])  # ugly but works
-        cprint("example:", color="yellow", end="")
-        cprint("\r\t\t" + examples[key])
+        cprint(key + ":", color="green", end=" " * (16 - len(key)))
+        cprint(parsed_response[key])
+        cprint("example:", color="yellow", end=" " * (16 - len("example")))
+        cprint(examples[key])
         print("")
 
 
@@ -82,6 +82,12 @@ def dictionary(word):
     elif response.status_code == 404:
         print("No definition found. Please check the spelling!!")
         exit()
+    if response.status_code == 403:
+        print(
+            "You have reached the api limit.This may happen because the api keys",
+            "are shared among multiple users. you can either create your free personal api key on https://developer.oxforddictionaries.com",
+            " and paste them in ~/.pyvoc/pyvoc.config. ",
+        )
     elif response.status_code == 500:
         print("Internal error. Error occured while processing the data")
         exit()

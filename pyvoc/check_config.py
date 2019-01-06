@@ -66,7 +66,7 @@ def create_config_file():
 
 
 def get_api_keys():
-    url = "https://api.jsonbin.io/b/5c3192b57b31f426f851cbc7"
+    url = "https://api.jsonbin.io/b/5c3192b57b31f426f851cbc7/latest"
     headers = {"Content-type": "application/json"}
     response = requests.get(url)
     print("getting api keys")
@@ -82,7 +82,7 @@ def get_api_keys():
     api_key = None
     for key in keys:
         key_count += 1
-        if json_response[key]["count"] < 100:
+        if json_response[key]["count"] < 50:
             api_id = json_response[key]["app_id"]
             api_key = json_response[key]["app_key"]
             json_response[key]["count"] += 1
@@ -92,10 +92,9 @@ def get_api_keys():
         url = "https://api.jsonbin.io/b/5c3192b57b31f426f851cbc7"
         pass
 
-    url = "https://api.jsonbin.io/b/5c3192b57b31f426f851cbc7"
-    print(json.dumps(json_response))
+    url = "https://api.jsonbin.io/b/5c3192b57b31f426f851cbc7/latest"
     put_response = requests.put(url, json=json_response, headers=headers)
     print(put_response.status_code)
-    print(put_response.json())
+    print(put_response.text)
     return api_id, api_key
 
