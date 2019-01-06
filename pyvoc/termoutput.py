@@ -1,11 +1,18 @@
 import os
 import json
+import shutil
 from termcolor import cprint
 import colorama
 import random
 from pyvoc.check_config import config_dir_path
 
+# from textwrap import TextWrapper
+import textwrap
+
 colorama.init()
+
+# wrapper = TextWrapper(width=50)
+terminal_width = shutil.get_terminal_size().columns
 
 
 def revise_vocab(group_number):
@@ -30,17 +37,30 @@ def revise_vocab(group_number):
     )
     print("")
     for i, word in enumerate(words, 1):
-        print("{}. ".format(i), end="")
+        # print("{}. ".format(i), end="")
         cprint(
-            "{} ".format(word),
+            "{}".format(word),
             color="green",
             attrs=["reverse", "bold"],
-            end=" " * (18 - len(word)),
+            end=" " * (15 - len(word)),
         )
-        cprint(list(group[word].values())[0])
+        width_left = terminal_width - 24
+        sentences = textwrap.wrap(list(group[word].values())[0], width=width_left)
+        # print(sentences)
+        s_count = 1
+        for sentence in sentences:
+            if s_count == 1:
+                print(sentence)
+            else:
+                # print("hello")
+                print(" " * (15) + sentence)
+            s_count += 1
+        # cprint(list(group[word].values())[0])
+        print("{}. ".format(i), end="")
         prompt = input("> ")
         if prompt.lower() == "q":
             break
+        print(" ")
     print("")
     cprint("END", color="yellow", attrs=["bold", "reverse"])
 

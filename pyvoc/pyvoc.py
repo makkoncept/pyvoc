@@ -8,7 +8,11 @@ import colorama
 import configparser
 from pyvoc.check_config import config_dir_path, read_config_file, check_config_dir
 from pyvoc.dmanager import add_word_to_vocab, list_all_groups
-from pyvoc.termoutput import revise_vocab, quiz
+from pyvoc.termoutput import revise_vocab, quiz, terminal_width
+
+# from textwrap import TextWrapper
+import textwrap
+
 
 # from pyvoc. [make different module for 2d structure]
 
@@ -58,10 +62,27 @@ def pretty_print_definition(word, parsed_response, examples):
     print("")
     cprint(word + " ", color="magenta", attrs=["bold", "reverse"])
     for key in parsed_response:
+        # x = wrapper.wrap(s)
         cprint(key + ":", color="green", end=" " * (16 - len(key)))
-        cprint(parsed_response[key])
+        width_left = terminal_width - 18
+        sentences = textwrap.wrap(parsed_response[key], width=width_left)
+        s_count = 1
+        for sentence in sentences:
+            if s_count == 1:
+                print(sentence)
+            else:
+                print(" " * (17) + sentence)
+            s_count += 1
         cprint("example:", color="yellow", end=" " * (16 - len("example")))
-        cprint(examples[key])
+        sentences = textwrap.wrap(examples[key], width=width_left)
+        s_count = 1
+        for sentence in sentences:
+            if s_count == 1:
+                print(sentence)
+            else:
+                print(" " * (15) + sentence)
+            s_count += 1
+        # cprint(examples[key])
         print("")
 
 
