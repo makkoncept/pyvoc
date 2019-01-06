@@ -13,13 +13,6 @@ import textwrap
 
 colorama.init()
 
-"""
-saving as dictionary in a same file or in two files.
-maybe make two files. one for the word and the other saving different meanings in the dictionary
-form, as printed to the console.
-For now saving them in a json file.
-"""
-
 
 def parse_dictionary_response(response):
     lexicalEntries = response.json().get("results")[0]["lexicalEntries"]
@@ -75,18 +68,15 @@ def pretty_print_definition(word, parsed_response, examples):
             else:
                 print(" " * (15) + sentence)
             s_count += 1
-        # cprint(examples[key])
         print("")
 
 
 def dictionary(word):
     url = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/" + word.lower()
-    # Please handle with care.
     check_config_dir()
 
     app_id, app_key = read_config_file()
     headers = {"app_id": app_id, "app_key": app_key}
-    # headers = {"app_id": "49a68a4f", "app_key": "98b5944f8e61c97dd755d1d682712dfa"}
     try:
         response = requests.get(url, headers=headers)
     # TODO: test this except block.
@@ -95,7 +85,6 @@ def dictionary(word):
     if response.status_code == 200:
         parsed_response, examples = parse_dictionary_response(response)
         pretty_print_definition(word, parsed_response, examples)
-        # print(parsed_response)
         return parsed_response
     elif response.status_code == 404:
         print("No definition found. Please check the spelling!!")

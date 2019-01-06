@@ -8,12 +8,10 @@ import colorama
 
 from pyvoc.check_config import config_dir_path
 
-# from textwrap import TextWrapper
 import textwrap
 
 colorama.init()
 
-# wrapper = TextWrapper(width=50)
 terminal_width = shutil.get_terminal_size().columns
 
 
@@ -39,7 +37,6 @@ def revise_vocab(group_number):
     )
     print("")
     for i, word in enumerate(words, 1):
-        # print("{}. ".format(i), end="")
         cprint(
             "{}".format(word),
             color="green",
@@ -48,16 +45,13 @@ def revise_vocab(group_number):
         )
         width_left = terminal_width - 24
         sentences = textwrap.wrap(list(group[word].values())[0], width=width_left)
-        # print(sentences)
         s_count = 1
         for sentence in sentences:
             if s_count == 1:
                 print(sentence)
             else:
-                # print("hello")
                 print(" " * (15) + sentence)
             s_count += 1
-        # cprint(list(group[word].values())[0])
         print("{}. ".format(i), end="")
         prompt = input("> ")
         if prompt.lower() == "q":
@@ -108,7 +102,6 @@ def count_words_in_group(path, group_number, no_of_questions):
 
 
 # todo:add a default group_number
-# todo:no. of words in definitions.json is hardcoded.later add it to config file
 def quiz(group_number, no_of_questions=5):
     print("")
     path = validate_group_number(group_number)
@@ -122,14 +115,12 @@ def quiz(group_number, no_of_questions=5):
     with open(group_path, "r") as f:
         group_content = json.load(f)
     word_list = random.sample(list(group_content), no_of_questions)
-    # print(word_list)
     for word in word_list:
         _ = group_content[word]
         refined_def = _[random.sample(list(_), 1)[0]]
         word_definition[word] = refined_def
     with open(options_path, "r") as f:
         options = json.load(f)
-    # cprint("\t\tStarting Quiz", color="red", attrs=["bold", "reverse"])
     cprint(
         "1 point for every correct answer. q<enter> to exit",
         color="yellow",
@@ -138,7 +129,6 @@ def quiz(group_number, no_of_questions=5):
     print("\n")
     score = 0
     for i in range(no_of_questions):
-        # print("{} ".format(i + 1), end="")
         cprint(word_list[i], color="white", attrs=["bold", "reverse"])
         correct_option_number = print_options(options, word_definition, word_list[i])
         prompt_input(correct_option_number, word_list[i], score, result)
@@ -172,7 +162,6 @@ def print_options(options, correct_answer, word):
 # bold, dark, underlined, blink, reverse, concealed
 
 
-# todo: print the score even if user exit the quiz instead of terminating.
 def prompt_input(correct_option_number, word, score, result):
     while 1:
         prompt = input("> ")
