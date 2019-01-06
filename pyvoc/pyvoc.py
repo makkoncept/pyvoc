@@ -6,7 +6,7 @@ import random
 from termcolor import colored, cprint
 import colorama
 import configparser
-from pyvoc.check_config import config_dir_path
+from pyvoc.check_config import config_dir_path, read_config_file, check_config_dir
 from pyvoc.dmanager import add_word_to_vocab, list_all_groups
 from pyvoc.termoutput import revise_vocab, quiz
 
@@ -68,7 +68,11 @@ def pretty_print_definition(word, parsed_response, examples):
 def dictionary(word):
     url = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/" + word.lower()
     # Please handle with care.
-    headers = {"app_id": "49a68a4f", "app_key": "98b5944f8e61c97dd755d1d682712dfa"}
+    check_config_dir()
+
+    app_id, app_key = read_config_file()
+    headers = {"app_id": app_id, "app_key": app_key}
+    # headers = {"app_id": "49a68a4f", "app_key": "98b5944f8e61c97dd755d1d682712dfa"}
     try:
         response = requests.get(url, headers=headers)
     # TODO: test this except block.

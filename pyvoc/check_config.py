@@ -16,6 +16,8 @@ def config_dir_path():
     return os.path.join(home_dir, ".pyvoc")
 
 
+config_file_path = os.path.join(config_dir_path(), "pyvoc.config")
+
 # make it run only once at beginning of install. then remove the if conditions
 def check_config_dir():
     try:
@@ -58,11 +60,18 @@ def check_config_dir():
 
 
 def create_config_file():
-    config_file_path = os.path.join(config_dir_path(), "pyvoc.config")
+    # config_file_path = os.path.join(config_dir_path(), "pyvoc.config")
     app_id, app_key = get_api_keys()
-    config["API KEY"] = {"app_id": app_id, "app_key": app_key}
+    config["API"] = {"app_id": app_id, "app_key": app_key}
     with open(config_file_path, "w") as f:
         config.write(f)
+
+
+def read_config_file():
+    config.read(config_file_path)
+    print(config.sections())
+    print(config["API"])
+    return config["API"]["app_id"], config["API"]["app_key"]
 
 
 def get_api_keys():
