@@ -1,5 +1,7 @@
 import os
 import json
+import configparser
+
 from termcolor import cprint
 import colorama
 import requests
@@ -7,14 +9,15 @@ import requests
 colorama.init()
 
 home_dir = os.path.expanduser("~")
+config = configparser.ConfigParser()
 
 
 def config_dir_path():
     return os.path.join(home_dir, ".pyvoc")
 
 
-# make it run only once at beggining of install. then remove the if conditions
-def check_config_files():
+# make it run only once at beginning of install. then remove the if conditions
+def check_config_dir():
     try:
         path = config_dir_path()
         # makes path recursively. returns None if already exist.
@@ -45,12 +48,35 @@ def check_config_files():
         if not os.path.isfile(os.path.join(path, "all_words.json")):
             with open(os.path.join(path, "all_words.json"), "w") as f:
                 json.dump({}, f)
+        if not os.path.isfile(os.path.join(path, "pyvoc.config")):
+            create_config_file()
 
-        return path
+        # return path
     except IOError:
         print("Error occured while creating config files.")
         ()
 
 
-# check_config_dir()
+def create_config_file():
+    config_file_path = os.path.join(config_dir_path(), "pyvoc.config")
+    app_id, app_key = get_api_keys()
+    config["API KEY"] = {"app_id": app_id, "app_key": app_key}
+    with open(config_file_path, "w") as f:
+        config.write(f)
+
+
+def get_api_keys():
+    url = "https://api.jsonbin.io/b/5c3185b281fe89272a85031f/latest"
+    # header = {"Content-type": "application/json"}
+    response = requests.get(url)
+    print("getting api keys")
+    print(response.status_code)
+    if response.status_code != 200:
+        cprint("cannot get api key.")
+        exit()
+    json_response = response.json()
+    print(json_response)
+    for key in list(json_response.keys()):
+        if json_response[key]["count"] < 100:
+            return json_response[key]["app_id"], json_response[key]["app_key"]
 

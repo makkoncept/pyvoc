@@ -1,6 +1,6 @@
 import json
 import os
-from pyvoc.check_config import check_config_files, config_dir_path
+from pyvoc.check_config import check_config_dir, config_dir_path
 from termcolor import cprint
 import colorama
 
@@ -110,7 +110,7 @@ def check_duplicity(word, group_number):
 def add_word_to_vocab(word, parsed_response, group_number=None):
     # maybe find a method to check only once. then change to create_config.py?
     print("")
-    check_config_files()
+    check_config_dir()
     config_path = config_dir_path()
     definition = {word: parsed_response}
     if not group_number:
