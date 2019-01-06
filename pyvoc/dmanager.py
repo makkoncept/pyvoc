@@ -1,9 +1,11 @@
 import json
 import os
-from pyvoc.check_config import check_config_dir, config_dir_path
+
 from termcolor import cprint
 import colorama
 
+
+from pyvoc.check_config import check_config_dir, config_dir_path
 
 colorama.init()
 

@@ -1,22 +1,15 @@
 import argparse
+
 import requests
-import os
-import json
-import random
-from termcolor import colored, cprint
+from termcolor import cprint
 import colorama
-import configparser
-from pyvoc.check_config import config_dir_path, read_config_file, check_config_dir
+
+from pyvoc.check_config import read_config_file, check_config_dir
 from pyvoc.dmanager import add_word_to_vocab, list_all_groups
 from pyvoc.termoutput import revise_vocab, quiz, terminal_width
 
-# from textwrap import TextWrapper
 import textwrap
 
-
-# from pyvoc. [make different module for 2d structure]
-
-config = configparser.ConfigParser
 
 colorama.init()
 

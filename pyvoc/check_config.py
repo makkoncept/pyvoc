@@ -69,8 +69,6 @@ def create_config_file():
 
 def read_config_file():
     config.read(config_file_path)
-    print(config.sections())
-    print(config["API"])
     return config["API"]["app_id"], config["API"]["app_key"]
 
 

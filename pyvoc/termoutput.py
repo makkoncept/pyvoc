@@ -1,9 +1,11 @@
 import os
 import json
 import shutil
+import random
+
 from termcolor import cprint
 import colorama
-import random
+
 from pyvoc.check_config import config_dir_path
 
 # from textwrap import TextWrapper
