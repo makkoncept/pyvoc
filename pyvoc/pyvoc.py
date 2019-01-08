@@ -105,31 +105,32 @@ def dictionary(word):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="vocabulary building tool (with dictionary api)"
+        description="command line dictionary and vocabulary building tool"
     )
     parser.add_argument("word", help="give meaning of WORD")
-    parser.add_argument(
-        "-l", "--list", action="store_true", help="list all vocabulary groups"
-    )
     parser.add_argument(
         "-a", "--add", action="store_true", help="add WORD to vocabulary group"
     )
     parser.add_argument(
-        "-g", help="{optional} group no.(1-50) to add the word to", type=int
+        "-g", help="{optional} group no.(1-50) to add the WORD to", type=int
     )
     parser.add_argument(
         "-r",
+        "--revise",
         action="store_true",
-        help="revise words in vocabulary group.(WORD is group number)",
+        help="revise a vocabulary group (WORD is group number).",
     )
     parser.add_argument(
         "-q",
         "--quiz",
         type=int,
-        help="starts quiz. WORD is group no. and QUIZ is no. of questions(default=5)",
+        help="starts quiz, WORD is group no. and QUIZ is no. of questions",
+    )
+    parser.add_argument(
+        "-l", "--list", action="store_true", help="list all user made vocabulary groups"
     )
     args = parser.parse_args()
-    if args.r:
+    if args.revise:
         revise_vocab(args.word)
         exit()
     if args.quiz:
