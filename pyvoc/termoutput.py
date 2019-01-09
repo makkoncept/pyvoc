@@ -133,7 +133,8 @@ def quiz(group_number, no_of_questions=5):
     check_group_path(group_path)
     if path == "custom group":
         count_words_in_custom_group(group_path, no_of_questions, group_number)
-    count_words_in_group(path, group_number, no_of_questions)
+    else:
+        count_words_in_group(path, group_number, no_of_questions)
     result = {}
     word_definition = {}
     with open(group_path, "r") as f:
