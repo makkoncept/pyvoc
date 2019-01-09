@@ -25,6 +25,7 @@ def revise_vocab(group_number):
         with open(os.path.join(group_path), "r") as f:
             group = json.load(f)
     except FileNotFoundError:
+        pyvoc.stop_loading_animation()
         cprint(
             "group number {} does not exists".format(group_number),
             color="red",
@@ -34,11 +35,8 @@ def revise_vocab(group_number):
     words = list(group)
     random.shuffle(words)
     pyvoc.stop_loading_animation()
-    cprint(
-        " Press <enter> for next. q<enter> to exit ",
-        "yellow",
-        attrs=["bold", "reverse"],
-    )
+    print("")
+    cprint(" Press <enter> for next. q<enter> to exit ", "yellow", attrs=["bold"])
     print("")
     for i, word in enumerate(words, 1):
         cprint(
