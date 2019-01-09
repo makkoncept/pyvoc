@@ -66,14 +66,16 @@ def revise_vocab(group_number):
 
 
 def validate_group_number(group_number):
-    if group_number == 101:
+    if group_number in [101, 102, 103]:
         path = os.path.join(config_dir_path(), "group101.json")
         if not os.path.isfile(path):
+            pyvoc.stop_loading_animation()
             cprint("group{} does not exist".format(101), color="red", attrs=["bold"])
             exit()
-        return
+        return "custom group"
 
     if group_number < 1 or group_number > 100:
+        pyvoc.stop_loading_animation()
         cprint("Invalid group number. choose from 1-100", color="red", attrs=["bold"])
         exit()
     if group_number < 51:
@@ -85,6 +87,7 @@ def validate_group_number(group_number):
 
 def check_group_path(group_path):
     if not os.path.isfile(group_path):
+        pyvoc.add_word_to_vocab()
         cprint(
             "group number {} does not exist".format(group_number),
             color="red",
@@ -97,12 +100,28 @@ def count_words_in_group(path, group_number, no_of_questions):
     with open(path, "r") as f:
         num_of_words_in_group = json.load(f)[str(group_number)]
         if num_of_words_in_group < no_of_questions:
+            pyvoc.stop_loading_animation()
             cprint(
                 "group number {} does not have enough words".format(group_number),
                 color="red",
                 attrs=["bold"],
             )
             exit()
+
+
+def count_words_in_custom_group(group_path, no_of_questions, group_number):
+    with open(group_path, "r") as f:
+        content = json.load(f)
+
+    no_of_words_in_group = len(list(content.keys()))
+    if no_of_questions > no_of_words_in_group:
+        pyvoc.stop_loading_animation()
+        cprint(
+            "group number {} does not have enough words".format(group_number),
+            color="red",
+            attrs=["bold"],
+        )
+        exit()
 
 
 # todo:add a default group_number
@@ -112,8 +131,9 @@ def quiz(group_number, no_of_questions=5):
     group_path = os.path.join(config_dir_path(), "group" + str(group_number) + ".json")
     options_path = os.path.join(config_dir_path(), "options.json")
     check_group_path(group_path)
-    if path:
-        count_words_in_group(path, group_number, no_of_questions)
+    if path == "custom group":
+        count_words_in_custom_group(group_path, no_of_questions, group_number)
+    count_words_in_group(path, group_number, no_of_questions)
     result = {}
     word_definition = {}
     with open(group_path, "r") as f:

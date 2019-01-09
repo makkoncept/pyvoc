@@ -52,7 +52,7 @@ def parse_dictionary_response(response):
 
 def pretty_print_definition(word, parsed_response, examples):
     print("")
-    cprint(word + " ", color="magenta", attrs=["bold", "reverse"])
+    cprint(word + " ", color="cyan", attrs=["bold", "reverse"])
     for key in parsed_response:
         # x = wrapper.wrap(s)
         cprint(key + ":", color="green", end=" " * (16 - len(key)))
