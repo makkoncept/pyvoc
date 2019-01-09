@@ -155,7 +155,7 @@ def quiz(group_number, no_of_questions=5):
     for i in range(no_of_questions):
         cprint(word_list[i], color="white", attrs=["bold", "reverse"])
         correct_option_number = print_options(options, word_definition, word_list[i])
-        prompt_input(correct_option_number, word_list[i], score, result)
+        prompt_input(correct_option_number, word_list[i], score, result, i + 1)
     for word in result:
         if result[word] is True:
             score += 1
@@ -176,8 +176,17 @@ def print_options(options, correct_answer, word):
     for i, option in enumerate(options_list, 1):
         if option == correct_answer[word]:
             correct_option_number = count
-        cprint("[{}] ".format(i), color="cyan", end="")
-        cprint(option)
+        cprint("[{}]".format(i), color="cyan", end=" ")
+        width_left = terminal_width - (3 + len(str(i)))
+        sentences = textwrap.wrap(option, width=width_left)
+        s_count = 1
+        for sentence in sentences:
+            if s_count == 1:
+                print(sentence)
+            else:
+                print(" " * (3 + len(str(i))) + sentence)
+            s_count += 1
+
         count += 1
     return correct_option_number
 
@@ -186,9 +195,9 @@ def print_options(options, correct_answer, word):
 # bold, dark, underlined, blink, reverse, concealed
 
 
-def prompt_input(correct_option_number, word, score, result):
+def prompt_input(correct_option_number, word, score, result, question_number):
     while 1:
-        prompt = input("> ")
+        prompt = input("{}.> ".format(question_number))
         if prompt.lower() == "q":
             # return
             exit()
