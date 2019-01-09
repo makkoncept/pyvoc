@@ -8,6 +8,9 @@ import colorama
 
 from pyvoc.check_config import config_dir_path
 
+from pyvoc import pyvoc
+
+
 import textwrap
 
 colorama.init()
@@ -30,6 +33,7 @@ def revise_vocab(group_number):
         exit()
     words = list(group)
     random.shuffle(words)
+    pyvoc.stop_loading_animation()
     cprint(
         " Press <enter> for next. q<enter> to exit ",
         "yellow",
@@ -121,6 +125,7 @@ def quiz(group_number, no_of_questions=5):
         word_definition[word] = refined_def
     with open(options_path, "r") as f:
         options = json.load(f)
+    pyvoc.stop_loading_animation()
     cprint(
         "1 point for every correct answer. q<enter> to exit",
         color="yellow",

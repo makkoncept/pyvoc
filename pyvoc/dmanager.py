@@ -6,12 +6,14 @@ import colorama
 
 
 from pyvoc.check_config import check_config_dir, config_dir_path
+from pyvoc import pyvoc
 
 colorama.init()
 
 
 def add_new_vocab_group(group_number):
-    cprint("creating ", color="cyan", attrs=["reverse", "bold"], end="")
+    pyvoc.stop_loading_animation()
+    cprint("creating ", color="cyan", attrs=["bold"], end="")
     cprint("group Number {}...".format(group_number), color="green")
 
     with open(
@@ -22,6 +24,7 @@ def add_new_vocab_group(group_number):
 
 def validate_group_number(group_number):
     if group_number > 50 or group_number < 1:
+        pyvoc.stop_loading_animation()
         cprint(
             "group number {} is not available. Choose from 1-50".format(group_number),
             color="red",
@@ -103,7 +106,6 @@ def check_duplicity(word, group_number):
 
 
 def add_word_to_vocab(word, parsed_response, group_number=None):
-    print("")
     check_config_dir()
     config_path = config_dir_path()
     definition = {word: parsed_response}
@@ -113,7 +115,8 @@ def add_word_to_vocab(word, parsed_response, group_number=None):
         group_path = os.path.join(
             config_dir_path(), "group" + str(group_number) + ".json"
         )
-        cprint("writing to vocabulary group...", color="yellow")
+        pyvoc.stop_loading_animation()
+        cprint("\nwriting to vocabulary group...", color="yellow")
         with open(group_path, "r") as f:
             content = json.load(f)
         content.update(definition)
@@ -127,6 +130,7 @@ def add_word_to_vocab(word, parsed_response, group_number=None):
         )
         if not os.path.isfile(group_path):
             add_new_vocab_group(group_number)
+        pyvoc.stop_loading_animation()
         check_duplicity(word, group_number)
         counter_increment(group_number)
         cprint("writing to vocabulary group...", color="yellow")
@@ -142,9 +146,7 @@ def add_word_to_vocab(word, parsed_response, group_number=None):
         json.dump(all_words, f)
 
     cprint("word added to ", color="green", end="")
-    cprint(
-        "group number {}".format(group_number), color="cyan", attrs=["reverse", "bold"]
-    )
+    cprint("group number {}".format(group_number), color="cyan", attrs=["bold"])
 
 
 def list_all_groups():
@@ -152,6 +154,7 @@ def list_all_groups():
     defaultgroups_path = os.path.join(config_dir_path(), "defaultgroups.json")
     with open(usergroups_path, "r") as f:
         user_group_numbers = json.load(f)
+    pyvoc.stop_loading_animation()
     print("")
     cprint("USER GROUPS", color="cyan", on_color="on_grey")
     cprint("Group no.", color="green", end=" " * (14 - len("Group no")))

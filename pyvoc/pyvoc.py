@@ -1,4 +1,9 @@
 import argparse
+import itertools
+import threading
+import time
+import sys
+
 
 import requests
 from termcolor import cprint
@@ -12,6 +17,7 @@ import textwrap
 
 
 colorama.init()
+done = False
 
 
 def parse_dictionary_response(response):
@@ -71,6 +77,21 @@ def pretty_print_definition(word, parsed_response, examples):
         print("")
 
 
+# here is the animation
+def animate():
+    for c in itertools.cycle(["|", "/", "-", "\\"]):
+        if done:
+            break
+        sys.stdout.write("\r " + c)
+        sys.stdout.flush()
+        time.sleep(0.1)
+
+
+def stop_loading_animation():
+    global done
+    done = True
+
+
 def dictionary(word):
     url = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/" + word.lower()
     check_config_dir()
@@ -79,6 +100,8 @@ def dictionary(word):
     headers = {"app_id": app_id, "app_key": app_key}
     try:
         response = requests.get(url, headers=headers)
+        stop_loading_animation()
+        print("")
     # TODO: test this except block.
     except ConnectionError:
         print("Unable to connect. Please check your internet connection.")
@@ -130,6 +153,9 @@ def main():
         "-l", "--list", action="store_true", help="list all user made vocabulary groups"
     )
     args = parser.parse_args()
+    t = threading.Thread(target=animate)
+    t.start()
+
     if args.revise:
         revise_vocab(args.word)
         exit()
