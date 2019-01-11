@@ -83,9 +83,9 @@ def validate_group_number(group_number):
     return path
 
 
-def check_group_path(group_path):
+def check_group_path(group_path, group_number):
     if not os.path.isfile(group_path):
-        pyvoc.add_word_to_vocab()
+        pyvoc.stop_loading_animation()
         cprint(
             "group number {} does not exist".format(group_number),
             color="red",
@@ -128,7 +128,7 @@ def quiz(group_number, no_of_questions=5):
     path = validate_group_number(group_number)
     group_path = os.path.join(config_dir_path(), "group" + str(group_number) + ".json")
     options_path = os.path.join(config_dir_path(), "options.json")
-    check_group_path(group_path)
+    check_group_path(group_path, group_number)
     if path == "custom group":
         count_words_in_custom_group(group_path, no_of_questions, group_number)
     else:
