@@ -7,7 +7,7 @@ with open("README.md") as infile:
 
 setup(
     name="pyvoc",
-    version="1.0.0",
+    version="1.1.0",
     packages=["pyvoc"],
     description="cross-platform dictionary and vocabulary building command line tool.",
     long_description=long_description,
