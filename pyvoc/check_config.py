@@ -33,6 +33,18 @@ def check_config_dir():
             )
             with open(os.path.join(path, "group101.json"), "w") as f:
                 json.dump(response.json(), f)
+        if not os.path.isfile(os.path.join(path, "group102.json")):
+            response = requests.get(
+                "https://raw.githubusercontent.com/makkoncept/definitions/master/group102.json"
+            )
+            with open(os.path.join(path, "group102.json"), "w") as f:
+                json.dump(response.json(), f)
+        if not os.path.isfile(os.path.join(path, "group103.json")):
+            response = requests.get(
+                "https://raw.githubusercontent.com/makkoncept/definitions/master/group103.json"
+            )
+            with open(os.path.join(path, "group103.json"), "w") as f:
+                json.dump(response.json(), f)
         if not os.path.isfile(os.path.join(path, "options.json")):
             response = requests.get(
                 "https://raw.githubusercontent.com/makkoncept/doptions/master/options.json"
@@ -82,7 +94,6 @@ def get_api_keys():
         cprint("cannot get api key.")
         exit()
     json_response = response.json()
-    print(json_response)
     keys = list(json_response.keys())
     key_count = 0
     api_id = None
@@ -98,7 +109,6 @@ def get_api_keys():
 
     if key_count == len(keys) and api_id is None:
         # backup
-        print("xxxxxxx")
         backup = True
         url = "https://api.jsonbin.io/b/5c3887932c87fa27306c4be2/latest"
         response = requests.get(url, headers=headers)
@@ -107,7 +117,6 @@ def get_api_keys():
             cprint("cannot get api key.")
             exit()
         json_response = response.json()
-        print(json_response)
         keys = list(json_response.keys())
         key_count = 0
         api_id = None
@@ -120,10 +129,7 @@ def get_api_keys():
                 json_response[key]["count"] += 1
                 break
 
-    print("backup", backup)
-
     if backup is True:
-        print("backup is true")
         put_url = "https://api.jsonbin.io/b/5c3887932c87fa27306c4be2"
     else:
         put_url = "https://api.jsonbin.io/b/5c38856081fe89272a89a284"
@@ -132,14 +138,10 @@ def get_api_keys():
 
 
 def update_key_count(url, json_response):
-    print("in update function")
-    print(url)
     headers = {
         "Content-type": "application/json",
         "secret-key": "$2a$10$B613zIvPJf5QQf.qDAHR0Op2DBthskxT90hltZ.UhsZA0o4Kqio2.",
         "versioning": "false",
     }
     put_response = requests.put(url, json=json_response, headers=headers)
-    print(put_response.status_code)
-    print(put_response.text)
 
