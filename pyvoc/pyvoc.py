@@ -46,15 +46,10 @@ def parse_dictionary_response(response):
     return parsed_response, examples
 
 
-# red, green, yellow, blue, magenta, cyan, white
-# bold, dark, underlined, blink, reverse, concealed
-
-
 def pretty_print_definition(word, parsed_response, examples):
     print("")
     cprint(word + " ", color="cyan", attrs=["bold", "reverse"])
     for key in parsed_response:
-        # x = wrapper.wrap(s)
         cprint(key + ":", color="green", end=" " * (16 - len(key)))
         width_left = terminal_width - 18
         sentences = textwrap.wrap(parsed_response[key], width=width_left)
@@ -77,7 +72,6 @@ def pretty_print_definition(word, parsed_response, examples):
         print("")
 
 
-# here is the animation
 def animate():
     for c in itertools.cycle(["|", "/", "-", "\\"]):
         if done:
@@ -102,7 +96,6 @@ def dictionary(word):
         response = requests.get(url, headers=headers)
         stop_loading_animation()
         print("")
-    # TODO: test this except block.
     except ConnectionError:
         print("Unable to connect. Please check your internet connection.")
     if response.status_code == 200:
@@ -113,10 +106,11 @@ def dictionary(word):
         print("No definition found. Please check the spelling!!")
         exit()
     if response.status_code == 403:
-        print(
-            "You have reached the api limit.This may happen because the api keys",
-            "are shared among multiple users. you can either create your free personal api key on https://developer.oxforddictionaries.com",
-            " and paste them in ~/.pyvoc/pyvoc.config. ",
+        cprint(
+            "You have reached the api limit. This may happen because the api keys",
+            "are shared among multiple users. You can either create your own free personal api key on https://developer.oxforddictionaries.com",
+            " and paste them in ~/.pyvoc/pyvoc.config. or you can delete the the config file(~/.pyvoc/pyvoc.config) and run `pyvoc word`",
+            "to get a new shared api key",
         )
     elif response.status_code == 500:
         print("Internal error. Error occured while processing the data")

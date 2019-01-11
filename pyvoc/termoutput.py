@@ -122,7 +122,6 @@ def count_words_in_custom_group(group_path, no_of_questions, group_number):
         exit()
 
 
-# todo:add a default group_number
 def quiz(group_number, no_of_questions=5):
     print("")
     path = validate_group_number(group_number)
@@ -191,10 +190,6 @@ def print_options(options, correct_answer, word):
     return correct_option_number
 
 
-# red, green, yellow, blue, magenta, cyan, white
-# bold, dark, underlined, blink, reverse, concealed
-
-
 def prompt_input(correct_option_number, word, score, result, question_number):
     while 1:
         prompt = input("{}.> ".format(question_number))
@@ -214,7 +209,7 @@ def prompt_input(correct_option_number, word, score, result, question_number):
             )
             continue
         if int(prompt) == correct_option_number:
-            cprint("correct anwer", color="green", on_color="on_grey")
+            cprint("correct answer", color="green", on_color="on_grey")
             print("")
             result[word] = True
             score += 1
