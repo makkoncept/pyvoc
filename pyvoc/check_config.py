@@ -72,10 +72,8 @@ def read_config_file():
 
 def get_api_keys():
     url = "https://api.jsonbin.io/b/5c31d08c05d34b26f202e4a5/latest"
-    headers = {"Content-type": "application/json"}
     response = requests.get(url)
     print("getting api keys")
-    print(response.status_code)
     if response.status_code != 200:
         cprint("cannot get api key.")
         exit()
@@ -85,21 +83,51 @@ def get_api_keys():
     key_count = 0
     api_id = None
     api_key = None
+    backup = False
     for key in keys:
         key_count += 1
-        if json_response[key]["count"] < 40:
+        if json_response[key]["count"] < 3:
             api_id = json_response[key]["app_id"]
             api_key = json_response[key]["app_key"]
             json_response[key]["count"] += 1
+            break
 
     if key_count == len(keys) and api_id is None:
         # backup
-        url = "https://api.jsonbin.io/b/5c3192b57b31f426f851cbc7"
-        pass
+        print("xxxxxxx")
+        backup = True
+        url = "https://api.jsonbin.io/b/5c35eb7681fe89272a8781c8/latest"
+        response = requests.get(url)
+        print("getting api keys")
+        if response.status_code != 200:
+            cprint("cannot get api key.")
+            exit()
+        json_response = response.json()
+        print(json_response)
+        keys = list(json_response.keys())
+        key_count = 0
+        api_id = None
+        api_key = None
+        backup = False
+        for key in keys:
+            key_count += 1
+            if json_response[key]["count"] < 3:
+                api_id = json_response[key]["app_id"]
+                api_key = json_response[key]["app_key"]
+                json_response[key]["count"] += 1
+                break
 
-    url = "https://api.jsonbin.io/b/5c31d08c05d34b26f202e4a5"
+    if backup:
+        put_url = "https://api.jsonbin.io/b/5c35eb7681fe89272a8781c8"
+    else:
+        put_url = "https://api.jsonbin.io/b/5c31d08c05d34b26f202e4a5"
+    update_key_count(put_url, json_response)
+    return api_id, api_key
+
+
+def update_key_count(url, json_response):
+    headers = {"Content-type": "application/json"}
     put_response = requests.put(url, json=json_response, headers=headers)
     print(put_response.status_code)
     print(put_response.text)
-    return api_id, api_key
 
