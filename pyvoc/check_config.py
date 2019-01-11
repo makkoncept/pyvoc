@@ -101,7 +101,7 @@ def get_api_keys():
     backup = False
     for key in keys:
         key_count += 1
-        if json_response[key]["count"] < 1:
+        if json_response[key]["count"] < 30:
             api_id = json_response[key]["app_id"]
             api_key = json_response[key]["app_key"]
             json_response[key]["count"] += 1
@@ -123,7 +123,7 @@ def get_api_keys():
         api_key = None
         for key in keys:
             key_count += 1
-            if json_response[key]["count"] < 2:
+            if json_response[key]["count"] < 30:
                 api_id = json_response[key]["app_id"]
                 api_key = json_response[key]["app_key"]
                 json_response[key]["count"] += 1
@@ -143,5 +143,5 @@ def update_key_count(url, json_response):
         "secret-key": "$2a$10$B613zIvPJf5QQf.qDAHR0Op2DBthskxT90hltZ.UhsZA0o4Kqio2.",
         "versioning": "false",
     }
-    put_response = requests.put(url, json=json_response, headers=headers)
+    requests.put(url, json=json_response, headers=headers)
 
