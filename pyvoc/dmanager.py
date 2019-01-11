@@ -41,7 +41,7 @@ def counter_increment(group_number):
         latest_group_number = 50 + len(content)
         if latest_group_number > 100:
             cprint("Sorry! cannot add more words", color="red")
-        if content[str(latest_group_number)] > 10:
+        if content[str(latest_group_number)] > 60:
             add_new_vocab_group(latest_group_number + 1)
             content[str(latest_group_number + 1)] = 1
             group_number = latest_group_number + 1
@@ -58,7 +58,7 @@ def counter_increment(group_number):
         group_number = group_number
         if str(group_number) not in content:
             content[str(group_number)] = 1
-        elif content[str(group_number)] > 9:
+        elif content[str(group_number)] > 60:
             cprint(
                 "cannot add more words to group number {}".format(group_number),
                 color="yellow",
