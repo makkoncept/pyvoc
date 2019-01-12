@@ -8,6 +8,9 @@
     <a href="https://github.com/makkoncept/pyvoc">
     	<img src="https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20macOS-blue.svg" alt="platforms" />
     </a>
+    <a href="https://github.com/makkoncept/pyvoc/">
+      <img src="https://img.shields.io/badge/awesome-yes-green.svg" />
+    </a>
   </p>
 </p>
 
@@ -16,7 +19,7 @@
 # Pyvoc 
 
 <p align="center">
-  <img alt="simple pyvoc example" src="https://raw.githubusercontent.com/makkoncept/pyvoc/master/.art/cropped.gif">
+  <img alt="simple pyvoc example" src="https://raw.githubusercontent.com/makkoncept/pyvoc/master/.art/new.gif">
 </p>
 
 
