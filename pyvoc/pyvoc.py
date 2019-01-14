@@ -65,7 +65,7 @@ def pretty_print_definition(word, parsed_response, examples):
         s_count = 1
         for sentence in sentences:
             if s_count == 1:
-                print(sentence)
+                print(sentence.encode("utf-8").decode("utf-8"))
             else:
                 print(" " * (15) + sentence)
             s_count += 1
