@@ -8,6 +8,7 @@ import sys
 import requests
 from termcolor import cprint
 import colorama
+import enchant
 
 from pyvoc.check_config import read_config_file, check_config_dir
 from pyvoc.dmanager import add_word_to_vocab, list_all_groups
@@ -18,6 +19,7 @@ import textwrap
 
 colorama.init()
 done = False
+d = enchant.Dict("en_US")
 
 
 def parse_dictionary_response(response):
@@ -93,6 +95,16 @@ def dictionary(word):
     app_id, app_key = read_config_file()
     headers = {"app_id": app_id, "app_key": app_key}
     try:
+        if not d.check(word):
+            stop_loading_animation()
+            cprint("Please check the spelling!!", color="red")
+            possible_correct_spellings = d.suggest(word)
+            print("")
+            cprint("suggestions:", color="yellow", attrs=["bold"])
+            for word_suggestion in possible_correct_spellings:
+                if len(word_suggestion.split(" ")) == 1:
+                    cprint(word_suggestion, color="cyan")
+            exit()
         response = requests.get(url, headers=headers)
         stop_loading_animation()
         print("")
@@ -103,7 +115,7 @@ def dictionary(word):
         pretty_print_definition(word, parsed_response, examples)
         return parsed_response
     elif response.status_code == 404:
-        print("No definition found. Please check the spelling!!")
+        cprint("No definition found. Please check the spelling!!", color="red")
         exit()
     if response.status_code == 403:
         cprint(
@@ -113,10 +125,10 @@ def dictionary(word):
             "to get a new shared api key",
         )
     elif response.status_code == 500:
-        print("Internal error. Error occured while processing the data")
+        cprint("Internal error. Error occured while processing the data", color="red")
         exit()
     else:
-        print("Something went wrong. Check after some time.")
+        print("Something went wrong. Check after some time.", color="red")
         exit()
 
 
