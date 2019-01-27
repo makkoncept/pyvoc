@@ -1,5 +1,6 @@
 from setuptools import setup
 
+import pyvoc
 
 with open("README.md") as infile:
     long_description = infile.read()
@@ -7,7 +8,7 @@ with open("README.md") as infile:
 
 setup(
     name="pyvoc",
-    version="1.1.0",
+    version=pyvoc.__version__,
     packages=["pyvoc"],
     description="cross-platform dictionary and vocabulary building command line tool.",
     long_description=long_description,
