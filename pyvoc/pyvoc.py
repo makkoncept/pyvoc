@@ -13,6 +13,7 @@ import enchant
 from pyvoc.check_config import read_config_file, check_config_dir
 from pyvoc.dmanager import add_word_to_vocab, list_all_groups
 from pyvoc.termoutput import revise_vocab, quiz, terminal_width
+from pyvoc import __version__
 
 import textwrap
 
@@ -138,6 +139,9 @@ def main():
     )
     parser.add_argument("word", help="give meaning of WORD")
     parser.add_argument(
+        "-v", "--version", action="store_true", help="print version of pyvoc and exit"
+    )
+    parser.add_argument(
         "-a", "--add", action="store_true", help="add WORD to vocabulary group"
     )
     parser.add_argument(
@@ -159,6 +163,11 @@ def main():
         "-l", "--list", action="store_true", help="list all user made vocabulary groups"
     )
     args = parser.parse_args()
+
+    if args.version:
+        cprint(__version__, color="white")
+        exit()
+
     t = threading.Thread(target=animate)
     t.start()
 
