@@ -17,7 +17,7 @@ setup(
     url="http://github.com/makkoncept/pyvoc",
     author="Mayank Nader",
     author_mail="nader.mayank@gmail.com",
-    install_requires=["requests", "termcolor", "colorama"],
+    install_requires=["requests", "termcolor", "colorama", "pyenchant"],
     entry_points={"console_scripts": ["pyvoc=pyvoc.pyvoc:main"]},
     include_package_data=True,
 )
