@@ -58,7 +58,7 @@ def check_config_dir():
                 json.dump({}, f)
         if not os.path.isfile(os.path.join(path, "defaultgroups.json")):
             with open(os.path.join(path, "defaultgroups.json"), "w") as f:
-                json.dump({51: 0}, f)
+                json.dump({51: 0, 101: 800, 102: 800, 103: 800}, f)
         if not os.path.isfile(os.path.join(path, "all_words.json")):
             with open(os.path.join(path, "all_words.json"), "w") as f:
                 json.dump({}, f)
