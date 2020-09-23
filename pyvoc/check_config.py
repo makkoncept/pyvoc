@@ -55,10 +55,12 @@ def check_config_dir():
         if not os.path.isfile(os.path.join(path, "usergroups.json")):
             cprint("Creating necessary config files", color="yellow")
             with open(os.path.join(path, "usergroups.json"), "w") as f:
-                json.dump({}, f)
+                json.dump(
+                    {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0}, f
+                )
         if not os.path.isfile(os.path.join(path, "defaultgroups.json")):
             with open(os.path.join(path, "defaultgroups.json"), "w") as f:
-                json.dump({51: 0, 101: 800, 102: 800, 103: 800}, f)
+                json.dump({101: 800, 102: 800, 103: 800}, f)
         if not os.path.isfile(os.path.join(path, "all_words.json")):
             with open(os.path.join(path, "all_words.json"), "w") as f:
                 json.dump({}, f)
