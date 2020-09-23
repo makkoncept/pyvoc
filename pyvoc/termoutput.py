@@ -122,7 +122,7 @@ def count_words_in_custom_group(group_path, no_of_questions, group_number):
         exit()
 
 
-def quiz(group_number, no_of_questions=5):
+def start_quiz(group_number, no_of_questions=5):
     print("")
     path = validate_group_number(group_number)
     group_path = os.path.join(config_dir_path(), "group" + str(group_number) + ".json")

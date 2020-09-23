@@ -12,7 +12,7 @@ import enchant
 
 from pyvoc.check_config import read_config_file, check_config_dir
 from pyvoc.dmanager import add_word_to_vocab, list_all_groups
-from pyvoc.termoutput import revise_vocab, quiz, terminal_width
+from pyvoc.termoutput import revise_vocab, start_quiz, terminal_width
 from pyvoc import __version__
 
 import textwrap
@@ -137,54 +137,70 @@ def dictionary(word):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="command line dictionary and vocabulary building tool"
+        description="Command line dictionary and vocabulary building tool."
     )
-    parser.add_argument("word", help="give meaning of WORD")
+
+    # add arguments to our CLI
     parser.add_argument(
-        "-v", "--version", action="store_true", help="print version of pyvoc and exit"
+        "-v", "--version", action="store_true", help="Print version of pyvoc and exit"
+    )
+    parser.add_argument("-w", dest="word", metavar="<word>", help="Give meaning of WORD")
+    parser.add_argument(
+        "-a", "--add-word", action="store_true", help="Use to add WORD to vocabulary group"
     )
     parser.add_argument(
-        "-a", "--add", action="store_true", help="add WORD to vocabulary group"
-    )
-    parser.add_argument(
-        "-g", help="{optional} group no.(1-50) to add the WORD to", type=int
+        "-g", dest="group_num", metavar="<group_num>", help="Use to specify the vocabulary group no.(1-10) to add the WORD to", type=int
     )
     parser.add_argument(
         "-r",
-        "--revise",
-        action="store_true",
-        help="revise a vocabulary group (WORD is group number).",
+        dest="revise",
+        type=int,
+        metavar="<group_num>",
+        help="Revise the vocabulary group you mention",
     )
     parser.add_argument(
         "-q",
-        "--quiz",
+        dest="quiz",
+        metavar="<group_num>",
         type=int,
-        help="starts quiz, WORD is group no. and QUIZ is no. of questions",
+        help="Start quiz from the vocabulary group you mention",
     )
     parser.add_argument(
-        "-l", "--list", action="store_true", help="list all user made vocabulary groups"
+        "-l", "--list", action="store_true", help="Lists all vocabulary groups present"
     )
+
     args = parser.parse_args()
 
+    # decide the course of action based on the options provided by the user
+    # first check the options that does not require connection to the API
     if args.version:
         cprint(__version__, color="white")
-        exit()
+    elif args.revise:
+        revise_vocab(args.revise)
+    elif args.quiz:
+        cprint("\n\t\tStarting Quiz", color="red", attrs=["bold", "reverse"])
+        start_quiz(args.quiz)
+    elif args.list:
+        list_all_groups()
+    exit()
 
+    # start the loading animation
     t = threading.Thread(target=animate)
     t.start()
 
-    if args.revise:
-        revise_vocab(args.word)
-        exit()
-    if args.quiz:
-        cprint("\n\t\tStarting Quiz", color="red", attrs=["bold", "reverse"])
-        quiz(int(args.word), args.quiz)
-        exit()
-    parsed_response = dictionary(args.word)
-    if args.add:
-        add_word_to_vocab(args.word.lower(), parsed_response, args.g)
-    if args.list:
-        list_all_groups()
+    # check the options that require connection to the API
+    if args.add_word:
+        if not args.word:
+            cprint("\nError: Please mention the word to add using option '-w <word>'", color="red", attrs=["bold"])
+            stop_loading_animation()
+        else:
+            parsed_response = dictionary(args.word)
+            add_word_to_vocab(args.word.lower(), parsed_response, args.group_num)
+    elif args.word:
+        parsed_response = dictionary(args.word)
+    else:
+        cprint("\nError: No arguments present. Run 'pyvoc --help' to see the available options", color="red", attrs=["bold"])
+        stop_loading_animation()
 
 
 if __name__ == "__main__":
