@@ -25,28 +25,25 @@ d = enchant.Dict("en_US")
 
 def parse_dictionary_response(response):
     lexicalEntries = response.json().get("results")[0]["lexicalEntries"]
-    parsed_response = dict()
-    examples = dict()
-    for i in lexicalEntries:
-        lexicalCategory = i["lexicalCategory"]
+
+    parsed_definitions = dict()
+    parsed_examples = dict()
+
+    for lexicalEntry in lexicalEntries:
+        lexicalCategory = lexicalEntry["lexicalCategory"]["text"]
         try:
-            definition = i["entries"][0]["senses"][0]["short_definitions"][0]
+            definition = lexicalEntry["entries"][0]["senses"][0]["definitions"][0]
             try:
-                example = i["entries"][0]["senses"][0]["examples"][0]["text"]
+                example = lexicalEntry["entries"][0]["senses"][0]["examples"][0]["text"]
             except KeyError:
                 example = "None"
-        except KeyError:
-            try:
-                definition = i["entries"][0]["senses"][0]["crossReferenceMarkers"][0]
-                try:
-                    example = i["entries"][0]["senses"][0]["examples"][0]["text"]
-                except KeyError:
-                    example = "None"
-            except Exception:
-                print("No definition found")
-        parsed_response[lexicalCategory] = definition
-        examples[lexicalCategory] = example
-    return parsed_response, examples
+        except Exception:
+            print("No definition found")
+
+        parsed_definitions[lexicalCategory] = definition
+        parsed_examples[lexicalCategory] = example
+
+    return parsed_definitions, parsed_examples
 
 
 def pretty_print_definition(word, parsed_response, examples):
@@ -90,33 +87,38 @@ def stop_loading_animation():
 
 
 def dictionary(word):
-    url = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/" + word.lower()
+    url = "https://od-api.oxforddictionaries.com/api/v2/entries/en-us/{}?fields=definitions,examples&strictMatch=false".format(word.lower())
     check_config_dir()
 
     app_id, app_key = read_config_file()
     headers = {"app_id": app_id, "app_key": app_key}
+
     try:
+        # checking if the spelling is right using enchant
         if not d.check(word):
             stop_loading_animation()
-            cprint("Please check the spelling!!", color="red")
+            cprint("Please check the spelling!\n", color="red")
+
+            # suggesting correct spellings
             possible_correct_spellings = d.suggest(word)
-            print("")
             cprint("suggestions:", color="yellow", attrs=["bold"])
             for word_suggestion in possible_correct_spellings:
                 if len(word_suggestion.split(" ")) == 1:
                     cprint(word_suggestion, color="cyan")
-            exit()
-        response = requests.get(url, headers=headers)
-        stop_loading_animation()
-        print("")
+        else :
+            response = requests.get(url, headers=headers)
+            stop_loading_animation()
+            print("")
+
     except ConnectionError:
         print("Unable to connect. Please check your internet connection.")
+
     if response.status_code == 200:
         parsed_response, examples = parse_dictionary_response(response)
         pretty_print_definition(word, parsed_response, examples)
         return parsed_response
     elif response.status_code == 404:
-        cprint("No definition found. Please check the spelling!!", color="red")
+        cprint("No definition found. Please check the spelling!", color="red")
         exit()
     if response.status_code == 403:
         cprint(
