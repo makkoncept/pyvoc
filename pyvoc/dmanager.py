@@ -71,46 +71,11 @@ def counter_increment(group_number):
         return
 
 
-def check_duplicity(word, group_number):
-    if not group_number:
-        path = os.path.join(config_dir_path(), "defaultgroups.json")
-        with open(path, "r") as f:
-            group_number = len(json.load(f)) + 50
-        group_path = os.path.join(
-            config_dir_path(), "group" + str(group_number) + ".json"
-        )
-        with open(group_path, "r") as f:
-            content = json.load(f)
-        if word in content:
-            cprint(
-                "Word already in group number {}. Choose a different group".format(
-                    group_number
-                ),
-                color="yellow",
-            )
-            exit()  # maybe add a prompt to accept group number instead of exit
-    else:
-        group_path = os.path.join(
-            config_dir_path(), "group" + str(group_number) + ".json"
-        )
-        with open(group_path, "r") as f:
-            content = json.load(f)
-        if word in content:
-            cprint(
-                "Word already in group number {}. Choose a different group".format(
-                    group_number
-                ),
-                color="yellow",
-            )
-            exit()  # maybe add a prompt to accept group number instead of exit
-
-
 def add_word_to_vocab(word, parsed_response, group_number=None):
     check_config_dir()
     config_path = config_dir_path()
     definition = {word: parsed_response}
     if not group_number:
-        check_duplicity(word, group_number=False)
         group_number = counter_increment(group_number=False)
         group_path = os.path.join(
             config_dir_path(), "group" + str(group_number) + ".json"
@@ -131,7 +96,6 @@ def add_word_to_vocab(word, parsed_response, group_number=None):
         if not os.path.isfile(group_path):
             add_new_vocab_group(group_number)
         pyvoc.stop_loading_animation()
-        check_duplicity(word, group_number)
         counter_increment(group_number)
         cprint("writing to vocabulary group...", color="yellow")
         with open(group_path, "r") as f:
