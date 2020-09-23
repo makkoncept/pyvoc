@@ -1,5 +1,5 @@
 <p align="center">
-  <img  algin="center" height="300" src="https://raw.githubusercontent.com/makkoncept/pyvoc/master/.art/pyvoc_logo.png" />
+  <img  algin="center" height="150" src="https://raw.githubusercontent.com/makkoncept/pyvoc/master/.art/pyvoc_logo.png" />
    <h3 align="center">Cross-platform dictionary and vocabulary building command line tool</h3> 
   <p align="center">
     <a href="https://github.com/makkoncept/pyvoc/blob/master/LICENSE">
