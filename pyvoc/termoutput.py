@@ -57,10 +57,12 @@ def revise_vocab(group_number):
         print("{}. ".format(i), end="")
         prompt = input("> ")
         if prompt.lower() == "q":
+            cprint("END\n", color="yellow", attrs=["bold", "reverse"])
             break
         print(" ")
-    print("")
-    cprint("END", color="yellow", attrs=["bold", "reverse"])
+
+    cprint("Revised all the words in vocabulary group {}!\n".format(group_number), color="yellow", attrs=["bold", "reverse"])
+    exit()
 
 
 def validate_group_number(group_number):
@@ -162,6 +164,7 @@ def start_quiz(group_number, no_of_questions=5):
     cprint("Score: {}/{}".format(score, no_of_questions), color="green", attrs=["bold"])
     if score == no_of_questions:
         cprint("Perfect Score ヽ(´▽`)/", color="yellow", attrs=["bold", "blink"])
+    exit()
 
 
 def print_options(options, correct_answer, word):

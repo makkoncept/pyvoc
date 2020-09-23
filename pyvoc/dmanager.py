@@ -171,4 +171,5 @@ def list_all_groups():
     for group in default_group_numbers:
         cprint(group, color="green", end=" " * (15 - len(str(group))))
         cprint(str(default_group_numbers[group]))
+    exit()
 

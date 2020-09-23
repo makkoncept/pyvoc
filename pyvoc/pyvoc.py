@@ -175,6 +175,7 @@ def main():
     # first check the options that does not require connection to the API
     if args.version:
         cprint(__version__, color="white")
+        exit()
     elif args.revise:
         revise_vocab(args.revise)
     elif args.quiz:
@@ -182,7 +183,6 @@ def main():
         start_quiz(args.quiz)
     elif args.list:
         list_all_groups()
-    exit()
 
     # start the loading animation
     t = threading.Thread(target=animate)
