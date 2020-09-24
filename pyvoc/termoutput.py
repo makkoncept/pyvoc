@@ -61,7 +61,11 @@ def revise_vocab(group_number):
             break
         print(" ")
 
-    cprint("Revised all the words in vocabulary group {}!\n".format(group_number), color="yellow", attrs=["bold", "reverse"])
+    cprint(
+        "Revised all the words in vocabulary group {}!\n".format(group_number),
+        color="yellow",
+        attrs=["bold", "reverse"],
+    )
     exit()
 
 

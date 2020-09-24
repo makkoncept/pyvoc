@@ -146,4 +146,3 @@ def update_key_count(url, json_response):
         "versioning": "false",
     }
     requests.put(url, json=json_response, headers=headers)
-

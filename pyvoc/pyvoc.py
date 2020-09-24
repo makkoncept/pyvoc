@@ -87,7 +87,9 @@ def stop_loading_animation():
 
 
 def dictionary(word):
-    url = "https://od-api.oxforddictionaries.com/api/v2/entries/en-us/{}?fields=definitions,examples&strictMatch=false".format(word.lower())
+    url = "https://od-api.oxforddictionaries.com/api/v2/entries/en-us/{}?fields=definitions,examples&strictMatch=false".format(
+        word.lower()
+    )
     check_config_dir()
 
     app_id, app_key = read_config_file()
@@ -105,7 +107,7 @@ def dictionary(word):
             for word_suggestion in possible_correct_spellings:
                 if len(word_suggestion.split(" ")) == 1:
                     cprint(word_suggestion, color="cyan")
-        else :
+        else:
             response = requests.get(url, headers=headers)
             stop_loading_animation()
             print("")
@@ -144,12 +146,21 @@ def main():
     parser.add_argument(
         "-v", "--version", action="store_true", help="Print version of pyvoc and exit"
     )
-    parser.add_argument("-w", dest="word", metavar="<word>", help="Give meaning of WORD")
     parser.add_argument(
-        "-a", "--add-word", action="store_true", help="Use to add WORD to vocabulary group"
+        "-w", dest="word", metavar="<word>", help="Give meaning of WORD"
     )
     parser.add_argument(
-        "-g", dest="group_num", metavar="<group_num>", help="Use to specify the vocabulary group no.(1-10) to add the WORD to", type=int
+        "-a",
+        "--add-word",
+        action="store_true",
+        help="Use to add WORD to vocabulary group",
+    )
+    parser.add_argument(
+        "-g",
+        dest="group_num",
+        metavar="<group_num>",
+        help="Use to specify the vocabulary group no.(1-10) to add the WORD to",
+        type=int,
     )
     parser.add_argument(
         "-r",
@@ -191,7 +202,11 @@ def main():
     # check the options that require connection to the API
     if args.add_word:
         if not args.word:
-            cprint("\nError: Please mention the word to add using option '-w <word>'", color="red", attrs=["bold"])
+            cprint(
+                "\nError: Please mention the word to add using option '-w <word>'",
+                color="red",
+                attrs=["bold"],
+            )
             stop_loading_animation()
         else:
             parsed_response = dictionary(args.word)
@@ -199,7 +214,11 @@ def main():
     elif args.word:
         parsed_response = dictionary(args.word)
     else:
-        cprint("\nError: No arguments present. Run 'pyvoc --help' to see the available options", color="red", attrs=["bold"])
+        cprint(
+            "\nError: No arguments present. Run 'pyvoc --help' to see the available options",
+            color="red",
+            attrs=["bold"],
+        )
         stop_loading_animation()
 
 
