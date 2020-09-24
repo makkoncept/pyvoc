@@ -43,12 +43,12 @@ pip3 install pyvoc
 
 ## Usage
 
-After installing pyvoc, run `pyvoc word` to _automatically create necessary config files_ in your home directory.
+After installing pyvoc, run `pyvoc -w word` to _automatically create necessary config files_ in your home directory.
 
 - Fetch meaning of word
 
 ```
-pyvoc word
+pyvoc -w word
 ```
 
 - Fetch meaning of word and add it to vocabulary group:
@@ -57,43 +57,38 @@ pyvoc word
 pyoc word -a
 ```
 
-- Take quiz of 20 questions from vocabulary group 101:
+- Take quiz from vocabulary group 101:
 
 ```
-pyvoc 101 -q 30
+pyvoc -q 101
 ```
 
 _read some more [examples](#Examples)_
 
 ```
 ➜ pyvoc -h
-usage: pyvoc [-h] [-a] [-g G] [-r] [-q QUIZ] [-l] word
+usage: pyvoc [-h] [-v] [-w <word>] [-a] [-g <group_num>] [-r <group_num>] [-q <group_num>] [-l]
 
-command line dictionary and vocabulary building tool
-
-positional arguments:
-  word                  give meaning of WORD
+Command line dictionary and vocabulary building tool.
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -a, --add             add WORD to vocabulary group
-  -g G                  {optional} group no.(1-50) to add the WORD to
-  -r, --revise          revise a vocabulary group (WORD is group number).
-  -q QUIZ, --quiz QUIZ  starts quiz, WORD is group no. and QUIZ is no. of
-                        questions
-  -l, --list            list all user made vocabulary groups
-
+  -h, --help      show this help message and exit
+  -v, --version   Print version of pyvoc and exit
+  -w <word>       Give meaning of WORD
+  -a, --add-word  Use to add WORD to vocabulary group
+  -g <group_num>  Use to specify the vocabulary group no.(1-10) to add the WORD to
+  -r <group_num>  Revise the vocabulary group you mention
+  -q <group_num>  Start quiz from the vocabulary group you mention
+  -l, --list      Lists all vocabulary groups present
 ```
 
 ## groups
 
 pyvoc lets you add words to vocabulary groups, which you can later revise or take quiz from.
 
-- 100 groups of 60 words are **reserved** for the user.
-- pyvoc **incrementally add words** to groups 51-100, if group number is not provided.
-- you can specify a group from 1-50 using [-g] option. (helpful when you want to **organize some words yourself**)
-- 3 refined, **custom groups of 800 words each** (words taken from GRE and SAT preparation websites) already present.
-- these groups are 101, 102 and 103.
+- 3 **custom groups of 800 words each** (words taken from GRE and SAT preparation websites) already present. These groups are 101, 102 and 103.
+- 10 groups of 50 words are **reserved** for the user. These groups are 1 - 10.
+- you can specify a group from 1-10 using [-g] option.
 
 ## Examples
 
@@ -117,17 +112,17 @@ Fetch meaning of the word and add it to vocabulary group 5. **Use this option to
 ### revise a group
 
 ```
-pyvoc 51 -r
+pyvoc -r 7
 ```
 
-revise word meaning of vocabulary group 51(if present) in random order.
+Revise word meaning of vocabulary group 7(if present) in random order.
 
 ---
 
 ### show group list
 
 ```
-pyvoc word -l
+pyvoc -l
 ```
 
-Fetch meaning of word and lists all group numbers along with their size.
+Lists all group numbers along with their size.
