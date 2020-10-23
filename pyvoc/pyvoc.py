@@ -177,6 +177,13 @@ def main():
         help="Start quiz from the vocabulary group you mention",
     )
     parser.add_argument(
+        "-n",
+        dest="no_of_questions",
+        metavar="<no_of_questions>",
+        type=int,
+        help="Mention the number of questions of quiz.",
+    )
+    parser.add_argument(
         "-l", "--list", action="store_true", help="Lists all vocabulary groups present"
     )
 
@@ -191,7 +198,7 @@ def main():
         revise_vocab(args.revise)
     elif args.quiz:
         cprint("\n\t\tStarting Quiz", color="red", attrs=["bold", "reverse"])
-        start_quiz(args.quiz)
+        start_quiz(args.quiz, args.no_of_questions)
     elif args.list:
         list_all_groups()
 

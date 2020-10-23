@@ -128,8 +128,18 @@ def count_words_in_custom_group(group_path, no_of_questions, group_number):
         exit()
 
 
-def start_quiz(group_number, no_of_questions=5):
+def start_quiz(group_number, no_of_questions):
     print("")
+    if no_of_questions is None:
+        cprint(
+            "Number of questions not specified. Assuming 5 questions.",
+            color="yellow",
+            attrs=["bold"],
+        )
+        no_of_questions = 5
+    else:
+        cprint(f"Initializing quiz with {no_of_questions} questions.")
+
     path = validate_group_number(group_number)
     group_path = os.path.join(config_dir_path(), "group" + str(group_number) + ".json")
     options_path = os.path.join(config_dir_path(), "options.json")
