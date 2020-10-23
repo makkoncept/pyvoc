@@ -63,29 +63,36 @@ pyvoc -w word
 pyoc word -a
 ```
 
-- Take quiz from vocabulary group 101:
+- Take quiz from vocabulary group 101 (default questions are 5):
 
 ```
 pyvoc -q 101
+```
+
+- Take quiz of 25 questions from vocabulary group 101 :
+
+```
+pyvoc -q 101 -n 25
 ```
 
 _read some more [examples](#Examples)_
 
 ```
 ➜ pyvoc -h
-usage: pyvoc [-h] [-v] [-w <word>] [-a] [-g <group_num>] [-r <group_num>] [-q <group_num>] [-l]
+usage: pyvoc [-h] [-v] [-w <word>] [-a] [-g <group_num>] [-r <group_num>] [-q <group_num>] [-n <no_of_questions>] [-l]
 
 Command line dictionary and vocabulary building tool.
 
 optional arguments:
-  -h, --help      show this help message and exit
-  -v, --version   Print version of pyvoc and exit
-  -w <word>       Give meaning of WORD
-  -a, --add-word  Use to add WORD to vocabulary group
-  -g <group_num>  Use to specify the vocabulary group no.(1-10) to add the WORD to
-  -r <group_num>  Revise the vocabulary group you mention
-  -q <group_num>  Start quiz from the vocabulary group you mention
-  -l, --list      Lists all vocabulary groups present
+  -h, --help            show this help message and exit
+  -v, --version         Print version of pyvoc and exit
+  -w <word>             Give meaning of WORD
+  -a, --add-word        Use to add WORD to vocabulary group
+  -g <group_num>        Use to specify the vocabulary group no.(1-10) to add the WORD to
+  -r <group_num>        Revise the vocabulary group you mention
+  -q <group_num>        Start quiz from the vocabulary group you mention
+  -n <no_of_questions>  Mention the number of questions of quiz.
+  -l, --list            Lists all vocabulary groups present
 ```
 
 ## groups
@@ -128,7 +135,7 @@ Revise word meaning of vocabulary group 7(if present) in random order.
 ### show group list
 
 ```
-pyvoc -l
+pyvoc --list
 ```
 
 Lists all group numbers along with their size.
