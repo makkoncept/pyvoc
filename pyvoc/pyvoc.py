@@ -124,11 +124,16 @@ def dictionary(word):
         exit()
     if response.status_code == 403:
         cprint(
-            "You have reached the api limit. This may happen because the api keys",
-            "are shared among multiple users. You can either create your own free personal api key on https://developer.oxforddictionaries.com",
-            " and paste them in ~/.pyvoc/pyvoc.config. or you can delete the the config file(~/.pyvoc/pyvoc.config) and run `pyvoc word`",
-            "to get a new shared api key",
+            (
+                "You have reached the API limit. This may happen because the api keys are "
+                "shared among multiple users. The best thing would be to create your own free personal "
+                "api key on https://developer.oxforddictionaries.com and paste them in ~/.pyvoc/pyvoc.config. "
+                "Or, you can delete the the config file(~/.pyvoc/pyvoc.config) and run `pyvoc -w hello` to get a new "
+                "shared api key"
+            ),
+            color="red",
         )
+        exit()
     elif response.status_code == 500:
         cprint("Internal error. Error occured while processing the data", color="red")
         exit()

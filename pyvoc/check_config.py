@@ -74,6 +74,11 @@ def check_config_dir():
 
 def create_config_file():
     app_id, app_key = get_api_keys()
+    cprint(
+        "Successfully fetched API key. These API keys are shared among many users. It is recommended that you get your own free personal API keys from https://developer.oxforddictionaries.com/ and add them in '~/.pyvoc/pyvoc.config' file.",
+        color="green",
+    )
+
     config["API"] = {"app_id": app_id, "app_key": app_key}
     with open(config_file_path, "w") as f:
         config.write(f)
