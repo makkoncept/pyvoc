@@ -25,7 +25,7 @@
 # Pyvoc
 
 <p align="center">
-  <img alt="simple pyvoc example" src="https://raw.githubusercontent.com/makkoncept/pyvoc/master/.art/new.gif">
+  <a href="https://asciinema.org/a/367832" target="_blank"><img src="https://asciinema.org/a/367832.svg" /></a>
 </p>
 
 **Use it to improve your english vocabulary, brush up some word meanings or as a simple command line dictionary.**
