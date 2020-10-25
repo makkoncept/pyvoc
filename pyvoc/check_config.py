@@ -85,64 +85,17 @@ def read_config_file():
 
 
 def get_api_keys():
-    url = "https://api.jsonbin.io/b/5c38856081fe89272a89a284/latest"
-    # url = "https://api.jsonbin.io/b/5c31d08c05d34b26f202e4a5/latest"
-    headers = {
-        "secret-key": "$2a$10$B613zIvPJf5QQf.qDAHR0Op2DBthskxT90hltZ.UhsZA0o4Kqio2."
-    }
-    response = requests.get(url, headers=headers)
-    print("getting api keys. please handle with care!")
-    if response.status_code != 200:
+    url = "http://13.71.3.249/pyvoc"
+    cprint(
+        "No API key found. Fetching new one...",
+        color="yellow",
+    )
+    response = requests.get(url)
+    json_response = response.json()
+    if response.status_code != 200 or json_response["message"] == "error":
         cprint("cannot get api key.")
         exit()
-    json_response = response.json()
-    keys = list(json_response.keys())
-    key_count = 0
-    api_id = None
-    api_key = None
-    backup = False
-    for key in keys:
-        key_count += 1
-        if json_response[key]["count"] < 30:
-            api_id = json_response[key]["app_id"]
-            api_key = json_response[key]["app_key"]
-            json_response[key]["count"] += 1
-            break
+    api_id = json_response["app_id"]
+    api_key = json_response["app_key"]
 
-    if key_count == len(keys) and api_id is None:
-        # backup
-        backup = True
-        url = "https://api.jsonbin.io/b/5c3887932c87fa27306c4be2/latest"
-        response = requests.get(url, headers=headers)
-        # print("getting api keys")
-        if response.status_code != 200:
-            cprint("cannot get api key.")
-            exit()
-        json_response = response.json()
-        keys = list(json_response.keys())
-        key_count = 0
-        api_id = None
-        api_key = None
-        for key in keys:
-            key_count += 1
-            if json_response[key]["count"] < 30:
-                api_id = json_response[key]["app_id"]
-                api_key = json_response[key]["app_key"]
-                json_response[key]["count"] += 1
-                break
-
-    if backup is True:
-        put_url = "https://api.jsonbin.io/b/5c3887932c87fa27306c4be2"
-    else:
-        put_url = "https://api.jsonbin.io/b/5c38856081fe89272a89a284"
-    update_key_count(put_url, json_response)
     return api_id, api_key
-
-
-def update_key_count(url, json_response):
-    headers = {
-        "Content-type": "application/json",
-        "secret-key": "$2a$10$B613zIvPJf5QQf.qDAHR0Op2DBthskxT90hltZ.UhsZA0o4Kqio2.",
-        "versioning": "false",
-    }
-    requests.put(url, json=json_response, headers=headers)
