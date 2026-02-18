@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pyvoc.pyvoc API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pyvoc.pyvoc</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pyvoc.pyvoc.animate"><code class="name flex">
+<span>def <span class="ident">animate</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def animate():
+    for c in itertools.cycle([&#34;|&#34;, &#34;/&#34;, &#34;-&#34;, &#34;\\&#34;]):
+        if done:
+            break
+        sys.stdout.write(&#34;\r &#34; + c)
+        sys.stdout.flush()
+        time.sleep(0.1)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="pyvoc.pyvoc.dictionary"><code class="name flex">
+<span>def <span class="ident">dictionary</span></span>(<span>word)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def dictionary(word):
+    url = &#34;https://od-api.oxforddictionaries.com/api/v2/entries/en-us/{}?fields=definitions,examples&amp;strictMatch=false&#34;.format(
+        word.lower()
+    )
+    check_config_dir()
+
+    app_id, app_key = read_config_file()
+    headers = {&#34;app_id&#34;: app_id, &#34;app_key&#34;: app_key}
+
+    try:
+        # checking if the spelling is right using enchant
+        if not d.check(word):
+            stop_loading_animation()
+            cprint(&#34;Please check the spelling!\n&#34;, color=&#34;red&#34;)
+
+            # suggesting correct spellings
+            possible_correct_spellings = d.suggest(word)
+            cprint(&#34;suggestions:&#34;, color=&#34;yellow&#34;, attrs=[&#34;bold&#34;])
+            for word_suggestion in possible_correct_spellings:
+                if len(word_suggestion.split(&#34; &#34;)) == 1:
+                    cprint(word_suggestion, color=&#34;cyan&#34;)
+        else:
+            response = requests.get(url, headers=headers)
+            stop_loading_animation()
+            print(&#34;&#34;)
+
+    except ConnectionError:
+        print(&#34;Unable to connect. Please check your internet connection.&#34;)
+
+    if response.status_code == 200:
+        parsed_response, examples = parse_dictionary_response(response)
+        pretty_print_definition(word, parsed_response, examples)
+        return parsed_response
+    elif response.status_code == 404:
+        cprint(&#34;No definition found. Please check the spelling!&#34;, color=&#34;red&#34;)
+        exit()
+    if response.status_code == 403:
+        cprint(
+            (
+                &#34;You have reached the API limit. This may happen because the api keys are &#34;
+                &#34;shared among multiple users. The best thing would be to create your own free personal &#34;
+                &#34;api key on https://developer.oxforddictionaries.com and paste them in ~/.pyvoc/pyvoc.config. &#34;
+                &#34;Or, you can delete the the config file(~/.pyvoc/pyvoc.config) and run `pyvoc -w hello` to get a new &#34;
+                &#34;shared api key&#34;
+            ),
+            color=&#34;red&#34;,
+        )
+        exit()
+    elif response.status_code == 500:
+        cprint(&#34;Internal error. Error occured while processing the data&#34;, color=&#34;red&#34;)
+        exit()
+    else:
+        print(&#34;Something went wrong. Check after some time.&#34;, color=&#34;red&#34;)
+        exit()</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="pyvoc.pyvoc.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main():
+    parser = argparse.ArgumentParser(
+        description=&#34;Command line dictionary and vocabulary building tool.&#34;
+    )
+
+    # add arguments to our CLI
+    parser.add_argument(
+        &#34;-v&#34;, &#34;--version&#34;, action=&#34;store_true&#34;, help=&#34;Print version of pyvoc and exit&#34;
+    )
+    parser.add_argument(
+        &#34;-w&#34;, dest=&#34;word&#34;, metavar=&#34;&lt;word&gt;&#34;, help=&#34;Give meaning of WORD&#34;
+    )
+    parser.add_argument(
+        &#34;-a&#34;,
+        &#34;--add-word&#34;,
+        action=&#34;store_true&#34;,
+        help=&#34;Use to add WORD to vocabulary group&#34;,
+    )
+    parser.add_argument(
+        &#34;-g&#34;,
+        dest=&#34;group_num&#34;,
+        metavar=&#34;&lt;group_num&gt;&#34;,
+        help=&#34;Use to specify the vocabulary group no.(1-10) to add the WORD to&#34;,
+        type=int,
+    )
+    parser.add_argument(
+        &#34;-r&#34;,
+        dest=&#34;revise&#34;,
+        type=int,
+        metavar=&#34;&lt;group_num&gt;&#34;,
+        help=&#34;Revise the vocabulary group you mention&#34;,
+    )
+    parser.add_argument(
+        &#34;-q&#34;,
+        dest=&#34;quiz&#34;,
+        metavar=&#34;&lt;group_num&gt;&#34;,
+        type=int,
+        help=&#34;Start quiz from the vocabulary group you mention&#34;,
+    )
+    parser.add_argument(
+        &#34;-n&#34;,
+        dest=&#34;no_of_questions&#34;,
+        metavar=&#34;&lt;no_of_questions&gt;&#34;,
+        type=int,
+        help=&#34;Mention the number of questions of quiz.&#34;,
+    )
+    parser.add_argument(
+        &#34;-l&#34;, &#34;--list&#34;, action=&#34;store_true&#34;, help=&#34;Lists all vocabulary groups present&#34;
+    )
+
+    args = parser.parse_args()
+
+    # decide the course of action based on the options provided by the user
+    # first check the options that does not require connection to the API
+    if args.version:
+        cprint(__version__, color=&#34;white&#34;)
+        exit()
+    elif args.revise:
+        revise_vocab(args.revise)
+    elif args.quiz:
+        cprint(&#34;\n\t\tStarting Quiz&#34;, color=&#34;red&#34;, attrs=[&#34;bold&#34;, &#34;reverse&#34;])
+        start_quiz(args.quiz, args.no_of_questions)
+    elif args.list:
+        list_all_groups()
+
+    # start the loading animation
+    t = threading.Thread(target=animate)
+    t.start()
+
+    # check the options that require connection to the API
+    if args.add_word:
+        if not args.word:
+            cprint(
+                &#34;\nError: Please mention the word to add using option &#39;-w &lt;word&gt;&#39;&#34;,
+                color=&#34;red&#34;,
+                attrs=[&#34;bold&#34;],
+            )
+            stop_loading_animation()
+        else:
+            parsed_response = dictionary(args.word)
+            add_word_to_vocab(args.word.lower(), parsed_response, args.group_num)
+    elif args.word:
+        parsed_response = dictionary(args.word)
+    else:
+        cprint(
+            &#34;\nError: No arguments present. Run &#39;pyvoc --help&#39; to see the available options&#34;,
+            color=&#34;red&#34;,
+            attrs=[&#34;bold&#34;],
+        )
+        stop_loading_animation()</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="pyvoc.pyvoc.parse_dictionary_response"><code class="name flex">
+<span>def <span class="ident">parse_dictionary_response</span></span>(<span>response)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parse_dictionary_response(response):
+    lexicalEntries = response.json().get(&#34;results&#34;)[0][&#34;lexicalEntries&#34;]
+
+    parsed_definitions = dict()
+    parsed_examples = dict()
+
+    for lexicalEntry in lexicalEntries:
+        lexicalCategory = lexicalEntry[&#34;lexicalCategory&#34;][&#34;text&#34;]
+        try:
+            definition = lexicalEntry[&#34;entries&#34;][0][&#34;senses&#34;][0][&#34;definitions&#34;][0]
+            try:
+                example = lexicalEntry[&#34;entries&#34;][0][&#34;senses&#34;][0][&#34;examples&#34;][0][&#34;text&#34;]
+            except KeyError:
+                example = &#34;None&#34;
+        except Exception:
+            print(&#34;No definition found&#34;)
+
+        parsed_definitions[lexicalCategory] = definition
+        parsed_examples[lexicalCategory] = example
+
+    return parsed_definitions, parsed_examples</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="pyvoc.pyvoc.pretty_print_definition"><code class="name flex">
+<span>def <span class="ident">pretty_print_definition</span></span>(<span>word, parsed_response, examples)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pretty_print_definition(word, parsed_response, examples):
+    print(&#34;&#34;)
+    cprint(word + &#34; &#34;, color=&#34;cyan&#34;, attrs=[&#34;bold&#34;, &#34;reverse&#34;])
+    for key in parsed_response:
+        cprint(key + &#34;:&#34;, color=&#34;green&#34;, end=&#34; &#34; * (16 - len(key)))
+        width_left = terminal_width - 18
+        sentences = textwrap.wrap(parsed_response[key], width=width_left)
+        s_count = 1
+        for sentence in sentences:
+            if s_count == 1:
+                print(sentence)
+            else:
+                print(&#34; &#34; * (17) + sentence)
+            s_count += 1
+        cprint(&#34;example:&#34;, color=&#34;yellow&#34;, end=&#34; &#34; * (16 - len(&#34;example&#34;)))
+        sentences = textwrap.wrap(examples[key], width=width_left)
+        s_count = 1
+        for sentence in sentences:
+            if s_count == 1:
+                print(sentence.encode(&#34;utf-8&#34;).decode(&#34;utf-8&#34;))
+            else:
+                print(&#34; &#34; * (15) + sentence)
+            s_count += 1
+        print(&#34;&#34;)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="pyvoc.pyvoc.stop_loading_animation"><code class="name flex">
+<span>def <span class="ident">stop_loading_animation</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stop_loading_animation():
+    global done
+    done = True</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pyvoc" href="index.html">pyvoc</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pyvoc.pyvoc.animate" href="#pyvoc.pyvoc.animate">animate</a></code></li>
+<li><code><a title="pyvoc.pyvoc.dictionary" href="#pyvoc.pyvoc.dictionary">dictionary</a></code></li>
+<li><code><a title="pyvoc.pyvoc.main" href="#pyvoc.pyvoc.main">main</a></code></li>
+<li><code><a title="pyvoc.pyvoc.parse_dictionary_response" href="#pyvoc.pyvoc.parse_dictionary_response">parse_dictionary_response</a></code></li>
+<li><code><a title="pyvoc.pyvoc.pretty_print_definition" href="#pyvoc.pyvoc.pretty_print_definition">pretty_print_definition</a></code></li>
+<li><code><a title="pyvoc.pyvoc.stop_loading_animation" href="#pyvoc.pyvoc.stop_loading_animation">stop_loading_animation</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

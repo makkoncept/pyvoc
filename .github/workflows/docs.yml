@@ -1,0 +1,59 @@
+name: Generate Documentation
+
+on:
+  schedule:
+    # Run daily at 00:00 UTC (midnight)
+    - cron: '0 0 * * *'
+  workflow_dispatch:  # Allow manual triggering
+  push:
+    branches:
+      - master
+    paths:
+      - 'pyvoc/**/*.py'
+      - '.github/workflows/docs.yml'
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pdoc3
+          # Install package dependencies
+          pip install requests termcolor colorama pyenchant
+          
+      - name: Generate documentation
+        run: |
+          # Generate HTML documentation
+          pdoc --html --output-dir doc pyvoc --force
+          # Move generated files from doc/pyvoc to doc/
+          if [ -d "doc/pyvoc" ]; then
+            mv doc/pyvoc/* doc/
+            rm -rf doc/pyvoc
+          fi
+          
+      - name: Commit and push documentation
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add doc/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "docs: Auto-generate documentation [skip ci]"
+            git push
+          fi
