@@ -39,6 +39,7 @@ def parse_dictionary_response(response):
                 example = "None"
         except Exception:
             print("No definition found")
+            continue
 
         parsed_definitions[lexicalCategory] = definition
         parsed_examples[lexicalCategory] = example
